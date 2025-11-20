@@ -3,21 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>AgroScan - Aplikasi Pertanian</title>
+  <title>AgroScan - Deteksi Hama</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-  
-    <script>
+  <script>
     tailwind.config = {
       theme: {
         extend: {
-          colors: {
-            primary: '#0ea5e9',
+          colors: { 
+            primary: '#10B981', // Hijau Cerah
             warning: '#f97316',
+            secondary: '#047857', // Hijau Gelap
           },
-          screens: {
-            'lg': '1024px',
-          }
+          screens: { 'lg': '1024px' }
         }
       }
     }
@@ -30,100 +28,51 @@
   <div class="max-w-4xl mx-auto bg-white shadow-xl rounded-xl p-6 lg:p-8">
     
     <header class="mb-6 border-b pb-4">
-      <h1 class="text-3xl font-bold text-gray-800">🌱 AgroScan <span class="text-primary font-light">— Aplikasi Pertanian</span></h1>
-      <p class="text-sm text-gray-500 mt-1">Demo aplikasi dengan deteksi hama dan informasi tanaman.</p>
+      <a href="index.html" class="text-sm text-primary hover:underline mb-2 block">← Kembali ke Beranda Aplikasi</a>
+      <h1 class="text-3xl font-bold text-gray-800">🔬 Deteksi Hama <span id="tanamanTitle" class="text-secondary font-light"></span></h1>
+      <p class="text-sm text-gray-500 mt-1">Gunakan model MobileNet atau Simulasi untuk mendeteksi hama.</p>
     </header>
 
-        <div class="flex border-b border-gray-200 mb-6">
-      <button id="tabDetect" data-tab="detect" class="tab-button px-4 py-2 text-sm font-semibold text-primary border-b-2 border-primary transition duration-150">
-        Deteksi Hama
-      </button>
-      <button id="tabInfo" data-tab="info" class="tab-button px-4 py-2 text-sm font-semibold text-gray-500 border-b-2 border-transparent hover:border-gray-300 transition duration-150">
-        Info Padi & Hama
-      </button>
-    </div>
+    <div class="lg:flex lg:space-x-8">
+      <div class="w-full lg:w-1/2">
+        <h2 class="text-lg font-semibold text-gray-700 mb-3">1) Unggah Gambar & Pindai</h2>
+        <label for="fileInput" class="block text-sm font-medium text-gray-700 mb-2">Pilih foto daun, serangga, atau area yang terinfeksi</label>
+        <input id="fileInput" type="file" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer">
 
-        <div id="contentDetect" class="tab-content">
-      <div class="lg:flex lg:space-x-8">
-                <div class="w-full lg:w-1/2">
-          <h2 class="text-lg font-semibold text-gray-700 mb-3">1) Unggah Gambar & Pindai</h2>
-          <label for="fileInput" class="block text-sm font-medium text-gray-700 mb-2">Pilih foto daun, serangga, atau area yang terinfeksi</label>
-          <input id="fileInput" type="file" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer">
-
-                    <div class="mt-4 border border-gray-200 rounded-lg overflow-hidden flex justify-center items-center bg-gray-100 min-h-[200px]">
-            <img id="preview" alt="Preview gambar akan muncul di sini" class="max-w-full max-h-[300px] object-contain" />
-          </div>
-
-                    <div class="flex space-x-4 mt-6">
-            <button id="btnDetect" class="flex-1 py-3 px-4 bg-primary text-white font-bold rounded-lg shadow-md hover:bg-primary/80 transition duration-150 disabled:opacity-50">
-              Scan (TFJS MobileNet)
-            </button>
-            <button id="btnMock" class="flex-1 py-3 px-4 bg-warning text-white font-bold rounded-lg shadow-md hover:bg-warning/80 transition duration-150 disabled:opacity-50">
-              Scan (Simulasi Hama)
-            </button>
-          </div>
-
-                    <div id="resultArea" class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg hidden">
-            <div class="text-blue-700 font-semibold mb-2" id="status">Menunggu input...</div>
-            <ul id="predictions" class="list-disc list-inside text-sm text-blue-600"></ul>
-            <div id="remedyDisplay" class="mt-4 border-t border-blue-200 pt-3"></div>
-          </div>
+        <div class="mt-4 border border-gray-200 rounded-lg overflow-hidden flex justify-center items-center bg-gray-100 min-h-[200px]">
+          <img id="preview" alt="Preview gambar akan muncul di sini" class="max-w-full max-h-[300px] object-contain" />
         </div>
 
-                <div class="w-full lg:w-1/2 mt-8 lg:mt-0">
-          <h2 class="text-lg font-semibold text-gray-700 mb-3">2) Opsi Model & Informasi</h2>
+        <div class="flex space-x-4 mt-6">
+          <button id="btnDetect" class="flex-1 py-3 px-4 bg-primary text-white font-bold rounded-lg shadow-md hover:bg-secondary transition duration-150 disabled:opacity-50">
+            Scan (TFJS MobileNet)
+          </button>
+          <button id="btnMock" class="flex-1 py-3 px-4 bg-warning text-white font-bold rounded-lg shadow-md hover:bg-warning/80 transition duration-150 disabled:opacity-50">
+            Scan (Simulasi Hama)
+          </button>
+        </div>
 
-          <label for="modelOption" class="block text-sm font-medium text-gray-700 mb-2">Pilih Model AI</label>
-          <select id="modelOption" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
-            <option value="mobilenet">MobileNet (Model Umum, Demo)</option>
-            <option value="custom">Model TFJS Custom (URL model.json)</option>
-          </select>
-
-          <div id="customUrlWrap" class="mt-4 hidden">
-            <label for="customModelUrl" class="block text-sm font-medium text-gray-700 mb-1">URL Model Custom (model.json)</label>
-            <input id="customModelUrl" placeholder="https://.../model.json" type="text" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
-          </div>
-
-          <hr class="my-6 border-gray-200">
-
-          <h3 class="text-md font-semibold text-gray-700 mb-2">Catatan Model:</h3>
-          <ul class="list-disc list-inside text-sm text-gray-600 space-y-2">
-            <li>MobileNet hanya mengenali objek umum, bukan label hama spesifik.</li>
-            <li>Mode ini adalah **Client-side**, analisis dilakukan di *browser* Anda.</li>
-          </ul>
-
+        <div id="resultArea" class="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg hidden">
+          <div class="text-green-700 font-semibold mb-2" id="status">Menunggu input...</div>
+          <ul id="predictions" class="list-disc list-inside text-sm text-green-600"></ul>
+          <div id="remedyDisplay" class="mt-4 border-t border-green-200 pt-3"></div>
         </div>
       </div>
-    </div>
 
-        <div id="contentInfo" class="tab-content hidden">
-      <h2 class="text-2xl font-semibold text-secondary mb-4">🌾 Informasi Dasar Padi & Hama Umum</h2>
-      
-      <div class="grid md:grid-cols-2 gap-6">
-                <div class="p-4 bg-green-50 rounded-lg border border-green-200">
-          <h3 class="text-lg font-bold text-green-700 mb-2">Informasi Tanaman Padi (Oryza sativa)</h3>
-          <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
-            <li>Padi merupakan tanaman pangan utama di Indonesia.</li>
-            <li>Dibutuhkan irigasi yang stabil atau curah hujan yang cukup.</li>
-            <li>Nutrisi utama yang dibutuhkan adalah Nitrogen (N), Fosfor (P), dan Kalium (K).</li>
-          </ul>
+      <div class="w-full lg:w-1/2 mt-8 lg:mt-0">
+        <h2 class="text-lg font-semibold text-gray-700 mb-3">2) Info & Batasan Model</h2>
+        <div class="p-4 bg-yellow-50 rounded-lg border border-yellow-200 text-sm text-gray-700">
+          <p>Saat ini, deteksi menggunakan **MobileNet** (model umum). Hasilnya hanya berupa label umum (misalnya: "kutu," "daun").</p>
+          <p class="mt-2 font-semibold">Gunakan tombol "Simulasi Hama" untuk melihat contoh hasil deteksi hama spesifik berdasarkan pilihan tanaman Anda.</p>
         </div>
 
-                <div class="p-4 bg-red-50 rounded-lg border border-red-200">
-          <h3 class="text-lg font-bold text-red-700 mb-2">Hama Kunci Tanaman Padi</h3>
-          <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
-            <li>**Wereng Batang Coklat (WBC):** Menyebabkan tanaman kering seperti terbakar (*hopperburn*).</li>
-            <li>**Penggerek Batang Padi:** Menyebabkan pucuk mati (*sundep*) saat fase vegetatif, atau bulir kosong (*beluk*) saat fase generatif.</li>
-            <li>**Virus Tungro:** Ditularkan oleh Wereng Hijau, menyebabkan pertumbuhan kerdil dan daun menguning/oranye.</li>
-          </ul>
-        </div>
       </div>
     </div>
 
   </div>
 
 <script>
-  // Elemen Utama
+  // Elemen
   const fileInput = document.getElementById('fileInput');
   const preview = document.getElementById('preview');
   const btnDetect = document.getElementById('btnDetect');
@@ -132,51 +81,40 @@
   const status = document.getElementById('status');
   const predictionsDiv = document.getElementById('predictions');
   const remedyDisplay = document.getElementById('remedyDisplay');
-  const modelOption = document.getElementById('modelOption');
-  const customUrlWrap = document.getElementById('customUrlWrap');
-  const customModelUrl = document.getElementById('customModelUrl');
+  const tanamanTitle = document.getElementById('tanamanTitle');
 
-  // Elemen Navigasi
-  const tabButtons = document.querySelectorAll('.tab-button');
-  const tabContents = document.querySelectorAll('.tab-content');
-  let loadedModel = null; 
+  let loadedModel = null;
+  let selectedType = 'umum'; 
 
+  // Ambil jenis tanaman dari URL (?type=padi atau ?type=umum)
+  const params = new URLSearchParams(window.location.search);
+  selectedType = params.get('type') || 'umum';
 
-  // --- FUNGSI NAVIGASI APLIKASI ---
-  function showTab(tabId) {
-    // Sembunyikan semua konten dan hapus status aktif dari tombol
-    tabContents.forEach(content => content.classList.add('hidden'));
-    tabButtons.forEach(button => {
-      button.classList.remove('text-primary', 'border-primary');
-      button.classList.add('text-gray-500', 'border-transparent');
-    });
-
-    // Tampilkan konten yang dipilih dan tandai tombol aktif
-    const selectedContent = document.getElementById(`content${tabId.charAt(0).toUpperCase() + tabId.slice(1)}`);
-    const selectedButton = document.getElementById(`tab${tabId.charAt(0).toUpperCase() + tabId.slice(1)}`);
-
-    if (selectedContent) selectedContent.classList.remove('hidden');
-    if (selectedButton) {
-      selectedButton.classList.remove('text-gray-500', 'border-transparent');
-      selectedButton.classList.add('text-primary', 'border-primary');
-    }
+  // Sesuaikan judul berdasarkan jenis tanaman
+  if (selectedType === 'padi') {
+    tanamanTitle.textContent = '— Tanaman Padi';
+  } else if (selectedType === 'umum') {
+    tanamanTitle.textContent = '— Tanaman Kebun Umum';
+  } else {
+    tanamanTitle.textContent = '— Pilihan Tanaman';
   }
+  
+  // Daftar Hama Spesifik berdasarkan Jenis Tanaman
+  const HAMA_LIST_PADI = [
+      { name: 'Penggerek Batang Padi (Sundep/Beluk)', remedy: 'Keringkan sawah sejenak dan gunakan insektisida sistemik Fipronil atau Kartap Hidroklorida.', color: 'red' },
+      { name: 'Penyakit Virus Tungro', remedy: 'Segera cabut tanaman yang terinfeksi parah. Kontrol vektornya (Wereng Hijau) menggunakan insektisida spesifik.', color: 'red' },
+      { name: 'Wereng Batang Coklat (WBC)', remedy: 'Gunakan varietas tahan wereng. Aplikasi insektisida sistemik (misal: BPMC) pada populasi tinggi.', color: 'red' }
+  ];
 
-  tabButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-      showTab(e.target.dataset.tab);
-    });
-  });
-  // Inisialisasi: Tampilkan tab Deteksi saat halaman dimuat
-  showTab('detect');
+  const HAMA_LIST_UMUM = [
+      { name: 'Kutu Kebul/Aphid', remedy: 'Gunakan insektisida berbahan aktif Imidakloprid atau Tiametoksam. Non-kimia: Semprotan air sabun.', color: 'red' },
+      { name: 'Serangan Ulat (Defoliasi)', remedy: 'Gunakan insektisida biologis Bacillus thuringiensis (Bt) atau pestisida dengan bahan aktif Deltametrin.', color: 'red' },
+      { name: 'Kekurangan Nitrogen (Menguning Daun)', remedy: 'Segera berikan pupuk yang kaya Nitrogen (Urea atau ZA) melalui aplikasi daun atau tanah.', color: 'yellow' },
+      { name: 'Penyakit Jamur (Bercak Daun)', remedy: 'Gunakan fungisida berbahan aktif Mankozeb atau Azoksistrobin. Kurangi kelembaban daun.', color: 'red' },
+  ];
 
 
-  // --- FUNGSI DETEKSI DAN LOGIKA HAMA ---
-
-  // Tampilkan input URL model saat pilih custom
-  modelOption.addEventListener('change', () => {
-    customUrlWrap.style.display = modelOption.value === 'custom' ? 'block' : 'none';
-  });
+  // --- LOGIKA UTAMA ---
 
   // Preview gambar
   fileInput.addEventListener('change', (ev) => {
@@ -186,7 +124,7 @@
     preview.src = url;
     preview.style.display = 'block';
     resultArea.style.display = 'none';
-    remedyDisplay.innerHTML = ''; 
+    remedyDisplay.innerHTML = '';
   });
 
   // Fungsi util: tampilkan hasil
@@ -206,7 +144,7 @@
       predictionsDiv.appendChild(ul);
     }
   }
-  
+
   // Load MobileNet (async)
   async function ensureMobilenet() {
     if (loadedModel && loadedModel.name === 'mobilenet') return loadedModel;
@@ -227,17 +165,17 @@
   }
 
 
-  // Run MobileNet classification
+  // Run MobileNet classification (TIDAK BERUBAH karena MobileNet umum)
   async function classifyWithMobilenet() {
     const imgEl = imgElementFromPreview();
     if (!imgEl) { showResult('Belum ada gambar.'); return; }
     showResult('Melakukan prediksi (MobileNet)...');
-    await imgEl.decode(); 
+    await imgEl.decode();
     const model = await ensureMobilenet();
     const preds = await model.classify(imgEl, 5);
     showResult('Hasil prediksi (MobileNet):', preds);
     
-    // Logika Rekomendasi Sederhana
+    // Rekomendasi Umum
     const isPest = preds.some(p => /insect|bug|fly|bee|ant|beetle|grasshopper/i.test(p.className));
     if (isPest) {
       predictionsDiv.insertAdjacentHTML('beforeend', `<p class="mt-2 text-red-700 font-bold">Peringatan: Kemungkinan ditemukan serangga/hama. Periksa lebih lanjut.</p>`); 
@@ -253,36 +191,26 @@
     }
   }
 
-  // Mock detection (Simulasi Hama Padi dan Umum)
+  // Mock detection (Simulasi Hama)
   function mockDetect() {
     if (!preview.src) { showResult('Silakan pilih gambar terlebih dahulu.'); return; }
-    showResult('Menjalankan deteksi simulasi...');
+    showResult(`Menjalankan deteksi simulasi untuk ${selectedType === 'padi' ? 'Padi' : 'Tanaman Umum'}...`);
     
-    // Data Rekomendasi Hama (Termasuk Padi)
-    const hamaList = [
-        // Hama Umum Tanaman Kebun
-        { name: 'Kutu Kebul', remedy: 'Gunakan insektisida berbahan aktif Imidakloprid atau Tiametoksam sesuai dosis. Non-kimia: Gunakan perangkap kuning lengket.', color: 'red' },
-        { name: 'Serangan Ulat (Defoliasi)', remedy: 'Gunakan insektisida biologis Bacillus thuringiensis (Bt) atau pestisida dengan bahan aktif Deltametrin. Siangi hama secara manual.', color: 'red' },
-        { name: 'Kekurangan Nitrogen (Menguning)', remedy: 'Segera berikan pupuk yang kaya Nitrogen (Urea atau ZA) melalui aplikasi daun atau tanah.', color: 'yellow' },
-        { name: 'Penyakit Jamur (Bercak Daun)', remedy: 'Gunakan fungisida berbahan aktif Mankozeb atau Azoksistrobin. Kurangi kelembaban daun.', color: 'red' },
-        
-        // Hama Padi (Tambahan)
-        { name: 'Penggerek Batang Padi (Sundep/Beluk)', remedy: 'Keringkan sawah sejenak (intermittent irrigation) dan gunakan insektisida sistemik seperti Fipronil atau Kartap Hidroklorida.', color: 'red' },
-        { name: 'Penyakit Virus Tungro', remedy: 'Segera cabut tanaman yang terinfeksi parah. Kontrol vektornya, yaitu Wereng Hijau, menggunakan insektisida spesifik.', color: 'red' }
-    ];
+    // Pilih daftar hama berdasarkan URL
+    const hamaList = selectedType === 'padi' ? HAMA_LIST_PADI : HAMA_LIST_UMUM;
 
-    // Logika simulasi (acak deterministik berdasarkan ukuran file)
+    // Logika simulasi
     const file = fileInput.files && fileInput.files[0];
     const size = file ? file.size : 0;
     const seed = (size % 100) / 100;
-    const chance = Math.random() * 0.5 + seed * 0.5;
-    
+    const chance = Math.random() * 0.5 + seed * 0.5; // peluang deteksi
+
     if (chance > 0.5) { 
         const detectedHama = hamaList[Math.floor(Math.random() * hamaList.length)];
         
         showResult(`Hasil Simulasi: Ditemukan ${detectedHama.name}`, [{ className: detectedHama.name, probability: chance }]);
         
-        // Tampilkan rekomendasi di area khusus
+        // Tampilkan rekomendasi
         const bgColor = detectedHama.color === 'red' ? 'bg-red-50' : 'bg-yellow-50';
         const textColor = detectedHama.color === 'red' ? 'text-red-700' : 'text-yellow-700';
         
@@ -295,19 +223,11 @@
         showResult('Hasil Simulasi: Tanaman Sehat / Normal', [{ className: 'Sehat/normal', probability: 1-chance }]);
         remedyDisplay.innerHTML = `<div class="bg-green-50 p-3 rounded-md mt-2">
           <h4 class="text-lg font-semibold text-green-700 mb-1">Rekomendasi Perawatan Rutin:</h4>
-          <p class="text-sm text-green-600">Lanjutkan perawatan rutin. Pastikan nutrisi (NPK) dan air tercukupi. Jangan menyiram saat malam hari untuk mencegah jamur.</p>
+          <p class="text-sm text-green-600">Lanjutkan perawatan rutin.</p>
         </div>`;
     }
   }
   
-
-  // Custom Model (Opsional, perlu URL model.json)
-  async function classifyWithCustomModel() {
-    // Logika prediksi model custom ada di sini
-    // ... (Anda dapat mengisi ini nanti jika sudah memiliki model.json)
-    showResult('Mode custom belum didukung penuh. Masukkan URL model.json untuk mengaktifkan fitur ini.');
-  }
-
 
   // Event Listener Tombol Utama
   btnDetect.addEventListener('click', async () => classifyWithMobilenet());
