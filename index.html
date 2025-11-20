@@ -15,6 +15,9 @@
     select, input[type=file], input[type=text] { padding:8px; border-radius:8px; border:1px solid #cbd5e1; width:100%; box-sizing: border-box; } 
     .result { margin-top:12px; padding:12px; border-radius:8px; background:#eef2ff; color:#3730a3; font-weight:600; }
     small.hint { color:#6b7280; }
+    .remedy-area { margin-top:10px; padding-top:10px; border-top: 1px dashed #c0c0c0; }
+    .remedy-area h4 { color:#059669; margin-bottom: 5px; margin-top: 0; }
+    .remedy-area p { color:#10b981; margin: 0; font-weight: 500;}
   </style>
 
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.9.0/dist/tf.min.js"></script>
@@ -41,6 +44,7 @@
         <div class="result" id="resultArea" style="display:none;">
           <div id="status">Menunggu input...</div>
           <div id="predictions" style="margin-top:8px;"></div>
+          <div id="remedyDisplay"></div>
         </div>
       </div>
 
@@ -78,6 +82,7 @@
   const resultArea = document.getElementById('resultArea');
   const status = document.getElementById('status');
   const predictionsDiv = document.getElementById('predictions');
+  const remedyDisplay = document.getElementById('remedyDisplay'); // Elemen baru
   const modelOption = document.getElementById('modelOption');
   const customUrlWrap = document.getElementById('customUrlWrap');
   const customModelUrl = document.getElementById('customModelUrl');
@@ -96,6 +101,7 @@
     const url = URL.createObjectURL(f);
     preview.src = url;
     resultArea.style.display = 'none';
+    remedyDisplay.innerHTML = ''; // Bersihkan rekomendasi saat ganti gambar
   });
 
   // Fungsi util: tampilkan hasil
@@ -103,11 +109,13 @@
     resultArea.style.display = 'block';
     status.textContent = text;
     predictionsDiv.innerHTML = '';
+    remedyDisplay.innerHTML = ''; // Pastikan area rekomendasi bersih di awal prediksi
+    
     if (preds.length) {
       const ul = document.createElement('ul');
       preds.forEach(p => {
         const li = document.createElement('li');
-        // KOREKSI: Tambahkan backtick
+        // Template literal yang benar (memperbaiki Syntax Error)
         li.textContent = `${p.className} — confidence: ${(p.probability*100).toFixed(1)}%`; 
         ul.appendChild(li);
       });
@@ -159,27 +167,49 @@
     const model = await ensureMobilenet();
     const preds = await model.classify(imgEl, 5); // top 5
     showResult('Hasil prediksi (MobileNet):', preds);
+    
     // simple rule: jika deteksi label "insect" atau "bee" muncul -> tandai "mungkin hama"
     const isPest = preds.some(p => /insect|bug|fly|bee|ant|beetle|grasshopper/i.test(p.className));
     if (isPest) {
-      // KOREKSI: Tambahkan backtick
+      // Menampilkan peringatan
       predictionsDiv.insertAdjacentHTML('beforeend', `<div style="margin-top:8px;color:#b91c1c;font-weight:700">Peringatan: Kemungkinan ditemukan serangga/hama. Periksa lebih lanjut.</div>`); 
+      // Rekomendasi umum untuk serangga
+      remedyDisplay.innerHTML = `<div class="remedy-area"><h4>Rekomendasi Penanganan Umum:</h4><p>Karena deteksi umum 'serangga', segera lakukan inspeksi visual. Jika hama teridentifikasi, gunakan insektisida non-sistemik ringan atau metode biologis.</p></div>`;
+    } else {
+      remedyDisplay.innerHTML = `<div class="remedy-area"><h4>Status Umum:</h4><p>Tidak terdeteksi hama serangga umum. Lanjutkan perawatan rutin.</p></div>`;
     }
   }
 
-  // Mock detection (aturan sederhana) — hanya demo UI
+  // Mock detection (aturan sederhana) — kini dengan rekomendasi
   function mockDetect() {
     if (!preview.src) { showResult('Belum ada gambar.'); return; }
     showResult('Menjalankan deteksi mock...');
+    
+    // Data Rekomendasi Hama (FITUR BARU)
+    const hamaList = [
+        { name: 'Kutu Kebul', remedy: 'Gunakan insektisida berbahan aktif Imidakloprid atau Tiametoksam sesuai dosis. Non-kimia: Gunakan perangkap kuning lengket.' },
+        { name: 'Serangan Ulat', remedy: 'Gunakan insektisida biologis Bacillus thuringiensis (Bt) atau pestisida dengan bahan aktif Deltametrin. Siangi hama secara manual.' },
+        { name: 'Kekurangan Nitrogen (Menguning)', remedy: 'Segera berikan pupuk yang kaya Nitrogen (Urea atau ZA) melalui aplikasi daun atau tanah.' },
+        { name: 'Penyakit Jamur (Bercak Daun)', remedy: 'Gunakan fungisida berbahan aktif Mankozeb atau Azoksistrobin. Kurangi kelembaban daun.' }
+    ];
+
     // Aturan mock: cek ukuran file -> keputusan acak deterministik
     const file = fileInput.files && fileInput.files[0];
     const size = file ? file.size : 0;
     const seed = (size % 100) / 100;
     const chance = Math.random() * 0.5 + seed * 0.5;
-    if (chance > 0.6) {
-      showResult('Hasil: Ditemukan tanda-tanda Hama', [{ className: 'Hama (mock)', probability: chance }]);
+    
+    if (chance > 0.5) { 
+        const detectedHama = hamaList[Math.floor(Math.random() * hamaList.length)];
+        
+        showResult(`Hasil: Ditemukan ${detectedHama.name}`, [{ className: detectedHama.name, probability: chance }]);
+        
+        // Tampilkan rekomendasi di area khusus
+        remedyDisplay.innerHTML = `<div class="remedy-area"><h4>Rekomendasi Penanganan:</h4><p>${detectedHama.remedy}</p></div>`;
+
     } else {
-      showResult('Hasil: Tidak ditemukan hama secara jelas (mock)', [{ className: 'Sehat/normal (mock)', probability: 1-chance }]);
+        showResult('Hasil: Tanaman Sehat / Normal', [{ className: 'Sehat/normal', probability: 1-chance }]);
+        remedyDisplay.innerHTML = `<div class="remedy-area"><h4>Rekomendasi Penanganan:</h4><p>Lanjutkan perawatan rutin. Pastikan nutrisi (NPK) dan air tercukupi. Jangan menyiram saat malam hari untuk mencegah jamur.</p></div>`;
     }
   }
 
@@ -199,22 +229,23 @@
       if (!url) { showResult('Masukkan URL model.json pada opsi custom.'); return; }
       try {
         await loadCustomModel(url);
-        // contoh cara prediksi model layers: resize & normalize
         showResult('Melakukan prediksi dengan model custom...');
         const imgEl = imgElementFromPreview();
         await imgEl.decode();
-        // buat tensor dari image
+        
         let t = tf.browser.fromPixels(imgEl).toFloat();
-        // contoh preprocessing: resize -> 224x224 -> expand dims -> /255
         t = tf.image.resizeBilinear(t, [224,224]).div(255.0).expandDims(0);
         const logits = loadedModel.predict(t);
-        // jika output softmax probs
         const probs = await logits.data();
-        // ambil top1
+        
         let maxIdx = 0;
         for (let i=1;i<probs.length;i++) if (probs[i] > probs[maxIdx]) maxIdx = i;
-        // KOREKSI: Tambahkan backtick
+        
         showResult(`Prediksi custom: labelIndex=${maxIdx}`, [{ className: `label_${maxIdx}`, probability: probs[maxIdx] }]);
+        
+        // Rekomendasi kosong karena ini model custom (perlu logika mapping label di masa depan)
+        remedyDisplay.innerHTML = `<div class="remedy-area"><h4>Rekomendasi Penanganan:</h4><p>Output dari model custom (label ${maxIdx}). Perlu ditambahkan logika mapping label ke rekomendasi spesifik.</p></div>`;
+      
       } catch (err) {
         console.error(err);
         showResult('Gagal memuat / memprediksi model custom. Cek URL & format model TFJS (model.json).');
