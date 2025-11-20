@@ -1,231 +1,232 @@
 <!doctype html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>AgroScan - Demo Pendeteksi Hama</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AgroScan - Demo Pendeteksi Hama</title>
 
-  <!-- Simple styling -->
-  <style>
-    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin: 20px; background:#f7fafc; color:#111827; }
-    .card { background:white; border-radius:12px; padding:18px; box-shadow:0 6px 18px rgba(2,6,23,0.06); max-width:900px; margin:auto; }
-    .row { display:flex; gap:18px; flex-wrap:wrap; }
-    .col { flex:1 1 320px; min-width:280px; }
-    img#preview { max-width:100%; border-radius:8px; display:block; margin-bottom:10px; }
-    button { padding:10px 14px; border-radius:8px; border:none; cursor:pointer; background:#0ea5a4; color:white; font-weight:600; }
-    select, input[type=file] { padding:8px; border-radius:8px; border:1px solid #cbd5e1; width:100%; }
-    .result { margin-top:12px; padding:12px; border-radius:8px; background:#eef2ff; color:#3730a3; font-weight:600; }
-    small.hint { color:#6b7280; }
-  </style>
+    <style>
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin: 20px; background:#f7fafc; color:#111827; }
+    .card { background:white; border-radius:12px; padding:18px; box-shadow:0 6px 18px rgba(2,6,23,0.06); max-width:900px; margin:auto; }
+    .row { display:flex; gap:18px; flex-wrap:wrap; }
+    .col { flex:1 1 320px; min-width:280px; }
+    img#preview { max-width:100%; border-radius:8px; display:block; margin-bottom:10px; }
+    button { padding:10px 14px; border-radius:8px; border:none; cursor:pointer; background:#0ea5a4; color:white; font-weight:600; }
+    select, input[type=file], input[type=text] { padding:8px; border-radius:8px; border:1px solid #cbd5e1; width:100%; box-sizing: border-box; } 
+    .result { margin-top:12px; padding:12px; border-radius:8px; background:#eef2ff; color:#3730a3; font-weight:600; }
+    small.hint { color:#6b7280; }
+  </style>
 
-  <!-- TensorFlow.js + pretrained MobileNet (digunakan sebagai demo) -->
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.9.0/dist/tf.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@3.1.0/dist/mobilenet.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.9.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@3.1.0/dist/mobilenet.min.js"></script>
 </head>
 <body>
-  <div class="card">
-    <h2>AgroScan — Demo Pendeteksi Hama (Browser)</h2>
-    <p class="hint">Upload foto daun/serangga/area tanaman. Demo ini menggunakan MobileNet (umum). Untuk hasil nyata, gunakan model TFJS custom yang sudah dilatih untuk hama tanaman.</p>
+  <div class="card">
+    <h2>AgroScan — Demo Pendeteksi Hama (Browser)</h2>
+    <p class="hint">Upload foto daun/serangga/area tanaman. Demo ini menggunakan MobileNet (umum). Untuk hasil nyata, gunakan model TFJS custom yang sudah dilatih untuk hama tanaman.</p>
 
-    <div class="row">
-      <div class="col">
-        <label>1) Pilih gambar untuk dipindai</label>
-        <input id="fileInput" type="file" accept="image/*">
-        <div style="margin-top:10px;">
-          <img id="preview" alt="Preview gambar akan muncul di sini" />
-        </div>
+    <div class="row">
+      <div class="col">
+        <label>1) Pilih gambar untuk dipindai</label>
+        <input id="fileInput" type="file" accept="image/*">
+        <div style="margin-top:10px;">
+          <img id="preview" alt="Preview gambar akan muncul di sini" />
+        </div>
 
-        <div style="display:flex; gap:8px; margin-top:8px;">
-          <button id="btnDetect">Scan (TFJS MobileNet)</button>
-          <button id="btnMock" style="background:#f59e0b">Scan (Mock)</button>
-        </div>
+        <div style="display:flex; gap:8px; margin-top:8px;">
+          <button id="btnDetect">Scan (TFJS MobileNet)</button>
+          <button id="btnMock" style="background:#f59e0b">Scan (Mock)</button>
+        </div>
 
-        <div class="result" id="resultArea" style="display:none;">
-          <div id="status">Menunggu input...</div>
-          <div id="predictions" style="margin-top:8px;"></div>
-        </div>
-      </div>
+        <div class="result" id="resultArea" style="display:none;">
+          <div id="status">Menunggu input...</div>
+          <div id="predictions" style="margin-top:8px;"></div>
+        </div>
+      </div>
 
-      <div class="col">
-        <label>2) Opsi dan Info</label>
-        <select id="modelOption">
-          <option value="mobilenet">MobileNet (pretrained) - Demo</option>
-          <option value="custom">Model TFJS (custom) — <small class="hint">letakkan URL model.json</small></option>
-        </select>
+      <div class="col">
+        <label>2) Opsi dan Info</label>
+        <select id="modelOption">
+          <option value="mobilenet">MobileNet (pretrained) - Demo</option>
+          <option value="custom">Model TFJS (custom) — <small class="hint">letakkan URL model.json</small></option>
+        </select>
 
-        <div id="customUrlWrap" style="margin-top:8px; display:none;">
-          <input id="customModelUrl" placeholder="https://.../model.json" />
-        </div>
+        <div id="customUrlWrap" style="margin-top:8px; display:none;">
+          <input id="customModelUrl" placeholder="https://.../model.json" type="text" />
+        </div>
 
-        <hr style="margin:16px 0;">
+        <hr style="margin:16px 0;">
 
-        <p><strong>Penjelasan singkat:</strong></p>
-        <ul>
-          <li>MobileNet mengenali objek umum (serangga, daun, buah), bukan label hama spesifik.</li>
-          <li>Untuk <em>deteksi hama</em> sejati, latih model dengan dataset hama dan export ke TFJS (model.json).</li>
-          <li>Ada dua mode: <em>Client-side</em> (ini) atau <em>Server-side</em> (unggah ke server & jalankan model python/TF).</li>
-        </ul>
+        <p><strong>Penjelasan singkat:</strong></p>
+        <ul>
+          <li>MobileNet mengenali objek umum (serangga, daun, buah), bukan label hama spesifik.</li>
+          <li>Untuk <em>deteksi hama</em> sejati, latih model dengan dataset hama dan export ke TFJS (model.json).</li>
+          <li>Ada dua mode: <em>Client-side</em> (ini) atau <em>Server-side</em> (unggah ke server & jalankan model python/TF).</li>
+        </ul>
 
-        <p><small class="hint">Butuh bantuan membuat model custom? Ketik: "Buatkan model TFJS untuk hama" — saya bantu langkah demi langkah.</small></p>
-      </div>
-    </div>
-  </div>
+        <p><small class="hint">Butuh bantuan membuat model custom? Ketik: "Buatkan model TFJS untuk hama" — saya bantu langkah demi langkah.</small></p>
+      </div>
+    </div>
+  </div>
 
 <script>
-  // Elemen
-  const fileInput = document.getElementById('fileInput');
-  const preview = document.getElementById('preview');
-  const btnDetect = document.getElementById('btnDetect');
-  const btnMock = document.getElementById('btnMock');
-  const resultArea = document.getElementById('resultArea');
-  const status = document.getElementById('status');
-  const predictionsDiv = document.getElementById('predictions');
-  const modelOption = document.getElementById('modelOption');
-  const customUrlWrap = document.getElementById('customUrlWrap');
-  const customModelUrl = document.getElementById('customModelUrl');
+  // Elemen
+  const fileInput = document.getElementById('fileInput');
+  const preview = document.getElementById('preview');
+  const btnDetect = document.getElementById('btnDetect');
+  const btnMock = document.getElementById('btnMock');
+  const resultArea = document.getElementById('resultArea');
+  const status = document.getElementById('status');
+  const predictionsDiv = document.getElementById('predictions');
+  const modelOption = document.getElementById('modelOption');
+  const customUrlWrap = document.getElementById('customUrlWrap');
+  const customModelUrl = document.getElementById('customModelUrl');
 
-  let loadedModel = null; // model (mobilenet or custom)
+  let loadedModel = null; // model (mobilenet or custom)
 
-  // Tampilkan input URL model saat pilih custom
-  modelOption.addEventListener('change', () => {
-    customUrlWrap.style.display = modelOption.value === 'custom' ? 'block' : 'none';
-  });
+  // Tampilkan input URL model saat pilih custom
+  modelOption.addEventListener('change', () => {
+    customUrlWrap.style.display = modelOption.value === 'custom' ? 'block' : 'none';
+  });
 
-  // Preview gambar
-  fileInput.addEventListener('change', (ev) => {
-    const f = ev.target.files && ev.target.files[0];
-    if (!f) return;
-    const url = URL.createObjectURL(f);
-    preview.src = url;
-    resultArea.style.display = 'none';
-  });
+  // Preview gambar
+  fileInput.addEventListener('change', (ev) => {
+    const f = ev.target.files && ev.target.files[0];
+    if (!f) return;
+    const url = URL.createObjectURL(f);
+    preview.src = url;
+    resultArea.style.display = 'none';
+  });
 
-  // Fungsi util: tampilkan hasil
-  function showResult(text, preds=[]) {
-    resultArea.style.display = 'block';
-    status.textContent = text;
-    predictionsDiv.innerHTML = '';
-    if (preds.length) {
-      const ul = document.createElement('ul');
-      preds.forEach(p => {
-        const li = document.createElement('li');
-        li.textContent = ${p.className} — confidence: ${(p.probability*100).toFixed(1)}%;
-        ul.appendChild(li);
-      });
-      predictionsDiv.appendChild(ul);
-    }
-  }
+  // Fungsi util: tampilkan hasil
+  function showResult(text, preds=[]) {
+    resultArea.style.display = 'block';
+    status.textContent = text;
+    predictionsDiv.innerHTML = '';
+    if (preds.length) {
+      const ul = document.createElement('ul');
+      preds.forEach(p => {
+        const li = document.createElement('li');
+        // KOREKSI: Tambahkan backtick
+        li.textContent = `${p.className} — confidence: ${(p.probability*100).toFixed(1)}%`; 
+        ul.appendChild(li);
+      });
+      predictionsDiv.appendChild(ul);
+    }
+  }
 
-  // Load MobileNet (async)
-  async function ensureMobilenet() {
-    if (loadedModel && loadedModel.name === 'mobilenet') return loadedModel;
-    showResult('Memuat MobileNet dari CDN... (sekali, membutuhkan koneksi)');
-    loadedModel = await mobilenet.load({ version: 3, alpha: 1.0 });
-    loadedModel.name = 'mobilenet';
-    showResult('MobileNet siap. Silakan klik Scan lagi.');
-    return loadedModel;
-  }
+  // Load MobileNet (async)
+  async function ensureMobilenet() {
+    if (loadedModel && loadedModel.name === 'mobilenet') return loadedModel;
+    showResult('Memuat MobileNet dari CDN... (sekali, membutuhkan koneksi)');
+    loadedModel = await mobilenet.load({ version: 3, alpha: 1.0 });
+    loadedModel.name = 'mobilenet';
+    showResult('MobileNet siap. Silakan klik Scan lagi.');
+    return loadedModel;
+  }
 
-  // Load custom TFJS model given URL (expects model.json)
-  async function loadCustomModel(url) {
-    try {
-      showResult('Memuat model custom dari: ' + url);
-      const m = await tf.loadLayersModel(url);
-      m.name = 'custom';
-      loadedModel = m;
-      showResult('Model custom siap. Klik Scan lagi.');
-      return m;
-    } catch (err) {
-      console.error(err);
-      showResult('Gagal memuat model custom. Periksa URL & CORS.');
-      throw err;
-    }
-  }
+  // Load custom TFJS model given URL (expects model.json)
+  async function loadCustomModel(url) {
+    try {
+      showResult('Memuat model custom dari: ' + url);
+      const m = await tf.loadLayersModel(url);
+      m.name = 'custom';
+      loadedModel = m;
+      showResult('Model custom siap. Klik Scan lagi.');
+      return m;
+    } catch (err) {
+      console.error(err);
+      showResult('Gagal memuat model custom. Periksa URL & CORS.');
+      throw err;
+    }
+  }
 
-  // Preprocess image to tensor for model (MobileNet expects HTMLImageElement directly)
-  function imgElementFromPreview() {
-    if (!preview.src) return null;
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.src = preview.src;
-    return img;
-  }
+  // Preprocess image to tensor for model (MobileNet expects HTMLImageElement directly)
+  function imgElementFromPreview() {
+    if (!preview.src) return null;
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.src = preview.src;
+    return img;
+  }
 
-  // Run MobileNet classification
-  async function classifyWithMobilenet() {
-    const imgEl = imgElementFromPreview();
-    if (!imgEl) { showResult('Belum ada gambar.'); return; }
-    showResult('Melakukan prediksi (MobileNet)...');
-    await imgEl.decode(); // ensure loaded
-    const model = await ensureMobilenet();
-    const preds = await model.classify(imgEl, 5); // top 5
-    showResult('Hasil prediksi (MobileNet):', preds);
-    // simple rule: jika deteksi label "insect" atau "bee" muncul -> tandai "mungkin hama"
-    const isPest = preds.some(p => /insect|bug|fly|bee|ant|beetle|grasshopper/i.test(p.className));
-    if (isPest) {
-      predictionsDiv.insertAdjacentHTML('beforeend', <div style="margin-top:8px;color:#b91c1c;font-weight:700">Peringatan: Kemungkinan ditemukan serangga/hama. Periksa lebih lanjut.</div>);
-    }
-  }
+  // Run MobileNet classification
+  async function classifyWithMobilenet() {
+    const imgEl = imgElementFromPreview();
+    if (!imgEl) { showResult('Belum ada gambar.'); return; }
+    showResult('Melakukan prediksi (MobileNet)...');
+    await imgEl.decode(); // ensure loaded
+    const model = await ensureMobilenet();
+    const preds = await model.classify(imgEl, 5); // top 5
+    showResult('Hasil prediksi (MobileNet):', preds);
+    // simple rule: jika deteksi label "insect" atau "bee" muncul -> tandai "mungkin hama"
+    const isPest = preds.some(p => /insect|bug|fly|bee|ant|beetle|grasshopper/i.test(p.className));
+    if (isPest) {
+      // KOREKSI: Tambahkan backtick
+      predictionsDiv.insertAdjacentHTML('beforeend', `<div style="margin-top:8px;color:#b91c1c;font-weight:700">Peringatan: Kemungkinan ditemukan serangga/hama. Periksa lebih lanjut.</div>`); 
+    }
+  }
 
-  // Mock detection (aturan sederhana) — hanya demo UI
-  function mockDetect() {
-    if (!preview.src) { showResult('Belum ada gambar.'); return; }
-    showResult('Menjalankan deteksi mock...');
-    // Aturan mock: cek ukuran file -> keputusan acak deterministik
-    const file = fileInput.files && fileInput.files[0];
-    const size = file ? file.size : 0;
-    const seed = (size % 100) / 100;
-    const chance = Math.random() * 0.5 + seed * 0.5;
-    if (chance > 0.6) {
-      showResult('Hasil: Ditemukan tanda-tanda Hama', [{ className: 'Hama (mock)', probability: chance }]);
-    } else {
-      showResult('Hasil: Tidak ditemukan hama secara jelas (mock)', [{ className: 'Sehat/normal (mock)', probability: 1-chance }]);
-    }
-  }
+  // Mock detection (aturan sederhana) — hanya demo UI
+  function mockDetect() {
+    if (!preview.src) { showResult('Belum ada gambar.'); return; }
+    showResult('Menjalankan deteksi mock...');
+    // Aturan mock: cek ukuran file -> keputusan acak deterministik
+    const file = fileInput.files && fileInput.files[0];
+    const size = file ? file.size : 0;
+    const seed = (size % 100) / 100;
+    const chance = Math.random() * 0.5 + seed * 0.5;
+    if (chance > 0.6) {
+      showResult('Hasil: Ditemukan tanda-tanda Hama', [{ className: 'Hama (mock)', probability: chance }]);
+    } else {
+      showResult('Hasil: Tidak ditemukan hama secara jelas (mock)', [{ className: 'Sehat/normal (mock)', probability: 1-chance }]);
+    }
+  }
 
-  // Scan button event (mobilenet or custom)
-  btnDetect.addEventListener('click', async () => {
-    if (!preview.src) { showResult('Silakan pilih gambar terlebih dahulu.'); return; }
+  // Scan button event (mobilenet or custom)
+  btnDetect.addEventListener('click', async () => {
+    if (!preview.src) { showResult('Silakan pilih gambar terlebih dahulu.'); return; }
 
-    if (modelOption.value === 'mobilenet') {
-      try {
-        await classifyWithMobilenet();
-      } catch (err) {
-        console.error(err);
-        showResult('Terjadi error saat prediksi MobileNet. Lihat konsol.');
-      }
-    } else { // custom model
-      const url = customModelUrl.value.trim();
-      if (!url) { showResult('Masukkan URL model.json pada opsi custom.'); return; }
-      try {
-        await loadCustomModel(url);
-        // contoh cara prediksi model layers: resize & normalize
-        showResult('Melakukan prediksi dengan model custom...');
-        const imgEl = imgElementFromPreview();
-        await imgEl.decode();
-        // buat tensor dari image
-        let t = tf.browser.fromPixels(imgEl).toFloat();
-        // contoh preprocessing: resize -> 224x224 -> expand dims -> /255
-        t = tf.image.resizeBilinear(t, [224,224]).div(255.0).expandDims(0);
-        const logits = loadedModel.predict(t);
-        // jika output softmax probs
-        const probs = await logits.data();
-        // ambil top1
-        let maxIdx = 0;
-        for (let i=1;i<probs.length;i++) if (probs[i] > probs[maxIdx]) maxIdx = i;
-        showResult(Prediksi custom: labelIndex=${maxIdx}, [{ className: label_${maxIdx}, probability: probs[maxIdx] }]);
-      } catch (err) {
-        console.error(err);
-        showResult('Gagal memuat / memprediksi model custom. Cek URL & format model TFJS (model.json).');
-      }
-    }
-  });
+    if (modelOption.value === 'mobilenet') {
+      try {
+        await classifyWithMobilenet();
+      } catch (err) {
+        console.error(err);
+        showResult('Terjadi error saat prediksi MobileNet. Lihat konsol.');
+      }
+    } else { // custom model
+      const url = customModelUrl.value.trim();
+      if (!url) { showResult('Masukkan URL model.json pada opsi custom.'); return; }
+      try {
+        await loadCustomModel(url);
+        // contoh cara prediksi model layers: resize & normalize
+        showResult('Melakukan prediksi dengan model custom...');
+        const imgEl = imgElementFromPreview();
+        await imgEl.decode();
+        // buat tensor dari image
+        let t = tf.browser.fromPixels(imgEl).toFloat();
+        // contoh preprocessing: resize -> 224x224 -> expand dims -> /255
+        t = tf.image.resizeBilinear(t, [224,224]).div(255.0).expandDims(0);
+        const logits = loadedModel.predict(t);
+        // jika output softmax probs
+        const probs = await logits.data();
+        // ambil top1
+        let maxIdx = 0;
+        for (let i=1;i<probs.length;i++) if (probs[i] > probs[maxIdx]) maxIdx = i;
+        // KOREKSI: Tambahkan backtick
+        showResult(`Prediksi custom: labelIndex=${maxIdx}`, [{ className: `label_${maxIdx}`, probability: probs[maxIdx] }]);
+      } catch (err) {
+        console.error(err);
+        showResult('Gagal memuat / memprediksi model custom. Cek URL & format model TFJS (model.json).');
+      }
+    }
+  });
 
-  // Mock scan button
-  btnMock.addEventListener('click', () => mockDetect());
+  // Mock scan button
+  btnMock.addEventListener('click', () => mockDetect());
 
-  // Inisialisasi: kosongkan preview
-  preview.src = '';
+  // Inisialisasi: kosongkan preview
+  preview.src = '';
 </script>
 </body>
 </html>
