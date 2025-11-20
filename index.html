@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>AgroScan - Pendeteksi Hama Modern</title>
+  <title>AgroScan - Aplikasi Pertanian</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
   
@@ -12,9 +12,8 @@
       theme: {
         extend: {
           colors: {
-            primary: '#0ea5e9', // Warna Biru Cerah
-            secondary: '#10b981', // Warna Hijau untuk Sukses/Rekomendasi
-            warning: '#f97316', // Warna Oranye untuk Mock
+            primary: '#0ea5e9',
+            warning: '#f97316',
           },
           screens: {
             'lg': '1024px',
@@ -31,66 +30,100 @@
   <div class="max-w-4xl mx-auto bg-white shadow-xl rounded-xl p-6 lg:p-8">
     
     <header class="mb-6 border-b pb-4">
-      <h1 class="text-3xl font-bold text-gray-800">🌱 AgroScan <span class="text-primary font-light">— Deteksi Hama</span></h1>
-      <p class="text-sm text-gray-500 mt-1">Demo identifikasi hama tanaman dengan Machine Learning (Client-side).</p>
+      <h1 class="text-3xl font-bold text-gray-800">🌱 AgroScan <span class="text-primary font-light">— Aplikasi Pertanian</span></h1>
+      <p class="text-sm text-gray-500 mt-1">Demo aplikasi dengan deteksi hama dan informasi tanaman.</p>
     </header>
 
-    <div class="lg:flex lg:space-x-8">
-            <div class="w-full lg:w-1/2">
-        <h2 class="text-lg font-semibold text-gray-700 mb-3">1) Unggah Gambar & Pindai</h2>
-        <label for="fileInput" class="block text-sm font-medium text-gray-700 mb-2">Pilih foto daun, serangga, atau area yang terinfeksi</label>
-        <input id="fileInput" type="file" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer">
+        <div class="flex border-b border-gray-200 mb-6">
+      <button id="tabDetect" data-tab="detect" class="tab-button px-4 py-2 text-sm font-semibold text-primary border-b-2 border-primary transition duration-150">
+        Deteksi Hama
+      </button>
+      <button id="tabInfo" data-tab="info" class="tab-button px-4 py-2 text-sm font-semibold text-gray-500 border-b-2 border-transparent hover:border-gray-300 transition duration-150">
+        Info Padi & Hama
+      </button>
+    </div>
 
-                <div class="mt-4 border border-gray-200 rounded-lg overflow-hidden flex justify-center items-center bg-gray-100 min-h-[200px]">
-          <img id="preview" alt="Preview gambar akan muncul di sini" class="max-w-full max-h-[300px] object-contain" />
+        <div id="contentDetect" class="tab-content">
+      <div class="lg:flex lg:space-x-8">
+                <div class="w-full lg:w-1/2">
+          <h2 class="text-lg font-semibold text-gray-700 mb-3">1) Unggah Gambar & Pindai</h2>
+          <label for="fileInput" class="block text-sm font-medium text-gray-700 mb-2">Pilih foto daun, serangga, atau area yang terinfeksi</label>
+          <input id="fileInput" type="file" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer">
+
+                    <div class="mt-4 border border-gray-200 rounded-lg overflow-hidden flex justify-center items-center bg-gray-100 min-h-[200px]">
+            <img id="preview" alt="Preview gambar akan muncul di sini" class="max-w-full max-h-[300px] object-contain" />
+          </div>
+
+                    <div class="flex space-x-4 mt-6">
+            <button id="btnDetect" class="flex-1 py-3 px-4 bg-primary text-white font-bold rounded-lg shadow-md hover:bg-primary/80 transition duration-150 disabled:opacity-50">
+              Scan (TFJS MobileNet)
+            </button>
+            <button id="btnMock" class="flex-1 py-3 px-4 bg-warning text-white font-bold rounded-lg shadow-md hover:bg-warning/80 transition duration-150 disabled:opacity-50">
+              Scan (Simulasi Hama)
+            </button>
+          </div>
+
+                    <div id="resultArea" class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg hidden">
+            <div class="text-blue-700 font-semibold mb-2" id="status">Menunggu input...</div>
+            <ul id="predictions" class="list-disc list-inside text-sm text-blue-600"></ul>
+            <div id="remedyDisplay" class="mt-4 border-t border-blue-200 pt-3"></div>
+          </div>
         </div>
 
-                <div class="flex space-x-4 mt-6">
-          <button id="btnDetect" class="flex-1 py-3 px-4 bg-primary text-white font-bold rounded-lg shadow-md hover:bg-primary/80 transition duration-150 disabled:opacity-50">
-            Scan (TFJS MobileNet)
-          </button>
-          <button id="btnMock" class="flex-1 py-3 px-4 bg-warning text-white font-bold rounded-lg shadow-md hover:bg-warning/80 transition duration-150 disabled:opacity-50">
-            Scan (Simulasi Hama)
-          </button>
-        </div>
+                <div class="w-full lg:w-1/2 mt-8 lg:mt-0">
+          <h2 class="text-lg font-semibold text-gray-700 mb-3">2) Opsi Model & Informasi</h2>
 
-                <div id="resultArea" class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg hidden">
-          <div class="text-blue-700 font-semibold mb-2" id="status">Menunggu input...</div>
-          <ul id="predictions" class="list-disc list-inside text-sm text-blue-600"></ul>
-          <div id="remedyDisplay" class="mt-4 border-t border-blue-200 pt-3"></div>
+          <label for="modelOption" class="block text-sm font-medium text-gray-700 mb-2">Pilih Model AI</label>
+          <select id="modelOption" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+            <option value="mobilenet">MobileNet (Model Umum, Demo)</option>
+            <option value="custom">Model TFJS Custom (URL model.json)</option>
+          </select>
+
+          <div id="customUrlWrap" class="mt-4 hidden">
+            <label for="customModelUrl" class="block text-sm font-medium text-gray-700 mb-1">URL Model Custom (model.json)</label>
+            <input id="customModelUrl" placeholder="https://.../model.json" type="text" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+          </div>
+
+          <hr class="my-6 border-gray-200">
+
+          <h3 class="text-md font-semibold text-gray-700 mb-2">Catatan Model:</h3>
+          <ul class="list-disc list-inside text-sm text-gray-600 space-y-2">
+            <li>MobileNet hanya mengenali objek umum, bukan label hama spesifik.</li>
+            <li>Mode ini adalah **Client-side**, analisis dilakukan di *browser* Anda.</li>
+          </ul>
+
         </div>
       </div>
+    </div>
 
-            <div class="w-full lg:w-1/2 mt-8 lg:mt-0">
-        <h2 class="text-lg font-semibold text-gray-700 mb-3">2) Opsi Model & Informasi</h2>
-
-        <label for="modelOption" class="block text-sm font-medium text-gray-700 mb-2">Pilih Model AI</label>
-        <select id="modelOption" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
-          <option value="mobilenet">MobileNet (Model Umum, Demo)</option>
-          <option value="custom">Model TFJS Custom (URL model.json)</option>
-        </select>
-
-        <div id="customUrlWrap" class="mt-4 hidden">
-          <label for="customModelUrl" class="block text-sm font-medium text-gray-700 mb-1">URL Model Custom (model.json)</label>
-          <input id="customModelUrl" placeholder="https://.../model.json" type="text" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+        <div id="contentInfo" class="tab-content hidden">
+      <h2 class="text-2xl font-semibold text-secondary mb-4">🌾 Informasi Dasar Padi & Hama Umum</h2>
+      
+      <div class="grid md:grid-cols-2 gap-6">
+                <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+          <h3 class="text-lg font-bold text-green-700 mb-2">Informasi Tanaman Padi (Oryza sativa)</h3>
+          <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+            <li>Padi merupakan tanaman pangan utama di Indonesia.</li>
+            <li>Dibutuhkan irigasi yang stabil atau curah hujan yang cukup.</li>
+            <li>Nutrisi utama yang dibutuhkan adalah Nitrogen (N), Fosfor (P), dan Kalium (K).</li>
+          </ul>
         </div>
 
-        <hr class="my-6 border-gray-200">
-
-        <h3 class="text-md font-semibold text-gray-700 mb-2">Mengapa Deteksi Hama Sulit?</h3>
-        <ul class="list-disc list-inside text-sm text-gray-600 space-y-2">
-          <li>MobileNet (demo ini) hanya mengenali objek umum ("kutu," "daun"), bukan label hama spesifik ("Kutu Kebul").</li>
-          <li>Untuk **deteksi hama** sejati, Anda perlu melatih model khusus dengan data hama (lalu ekspor ke TFJS/model.json).</li>
-          <li>Mode yang digunakan saat ini adalah **Client-side**, semua analisis dilakukan di *browser* Anda.</li>
-        </ul>
-
+                <div class="p-4 bg-red-50 rounded-lg border border-red-200">
+          <h3 class="text-lg font-bold text-red-700 mb-2">Hama Kunci Tanaman Padi</h3>
+          <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+            <li>**Wereng Batang Coklat (WBC):** Menyebabkan tanaman kering seperti terbakar (*hopperburn*).</li>
+            <li>**Penggerek Batang Padi:** Menyebabkan pucuk mati (*sundep*) saat fase vegetatif, atau bulir kosong (*beluk*) saat fase generatif.</li>
+            <li>**Virus Tungro:** Ditularkan oleh Wereng Hijau, menyebabkan pertumbuhan kerdil dan daun menguning/oranye.</li>
+          </ul>
+        </div>
       </div>
     </div>
 
   </div>
 
 <script>
-  // Elemen
+  // Elemen Utama
   const fileInput = document.getElementById('fileInput');
   const preview = document.getElementById('preview');
   const btnDetect = document.getElementById('btnDetect');
@@ -103,7 +136,42 @@
   const customUrlWrap = document.getElementById('customUrlWrap');
   const customModelUrl = document.getElementById('customModelUrl');
 
-  let loadedModel = null; // model (mobilenet or custom)
+  // Elemen Navigasi
+  const tabButtons = document.querySelectorAll('.tab-button');
+  const tabContents = document.querySelectorAll('.tab-content');
+  let loadedModel = null; 
+
+
+  // --- FUNGSI NAVIGASI APLIKASI ---
+  function showTab(tabId) {
+    // Sembunyikan semua konten dan hapus status aktif dari tombol
+    tabContents.forEach(content => content.classList.add('hidden'));
+    tabButtons.forEach(button => {
+      button.classList.remove('text-primary', 'border-primary');
+      button.classList.add('text-gray-500', 'border-transparent');
+    });
+
+    // Tampilkan konten yang dipilih dan tandai tombol aktif
+    const selectedContent = document.getElementById(`content${tabId.charAt(0).toUpperCase() + tabId.slice(1)}`);
+    const selectedButton = document.getElementById(`tab${tabId.charAt(0).toUpperCase() + tabId.slice(1)}`);
+
+    if (selectedContent) selectedContent.classList.remove('hidden');
+    if (selectedButton) {
+      selectedButton.classList.remove('text-gray-500', 'border-transparent');
+      selectedButton.classList.add('text-primary', 'border-primary');
+    }
+  }
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      showTab(e.target.dataset.tab);
+    });
+  });
+  // Inisialisasi: Tampilkan tab Deteksi saat halaman dimuat
+  showTab('detect');
+
+
+  // --- FUNGSI DETEKSI DAN LOGIKA HAMA ---
 
   // Tampilkan input URL model saat pilih custom
   modelOption.addEventListener('change', () => {
@@ -118,7 +186,7 @@
     preview.src = url;
     preview.style.display = 'block';
     resultArea.style.display = 'none';
-    remedyDisplay.innerHTML = ''; // Bersihkan rekomendasi saat ganti gambar
+    remedyDisplay.innerHTML = ''; 
   });
 
   // Fungsi util: tampilkan hasil
@@ -132,14 +200,13 @@
       const ul = document.createElement('ul');
       preds.forEach(p => {
         const li = document.createElement('li');
-        // Template literal yang benar
         li.textContent = `${p.className} — confidence: ${(p.probability*100).toFixed(1)}%`; 
         ul.appendChild(li);
       });
       predictionsDiv.appendChild(ul);
     }
   }
-
+  
   // Load MobileNet (async)
   async function ensureMobilenet() {
     if (loadedModel && loadedModel.name === 'mobilenet') return loadedModel;
@@ -150,23 +217,7 @@
     return loadedModel;
   }
 
-  // Load custom TFJS model given URL (expects model.json)
-  async function loadCustomModel(url) {
-    try {
-      showResult('Memuat model custom dari: ' + url);
-      const m = await tf.loadLayersModel(url);
-      m.name = 'custom';
-      loadedModel = m;
-      showResult('Model custom siap. Klik Scan lagi.');
-      return m;
-    } catch (err) {
-      console.error(err);
-      showResult('Gagal memuat model custom. Periksa URL & CORS.');
-      throw err;
-    }
-  }
-
-  // Preprocess image to tensor for model (MobileNet expects HTMLImageElement directly)
+  // Ambil elemen img dari preview
   function imgElementFromPreview() {
     if (!preview.src) return null;
     const img = new Image();
@@ -175,25 +226,24 @@
     return img;
   }
 
+
   // Run MobileNet classification
   async function classifyWithMobilenet() {
     const imgEl = imgElementFromPreview();
     if (!imgEl) { showResult('Belum ada gambar.'); return; }
     showResult('Melakukan prediksi (MobileNet)...');
-    await imgEl.decode(); // ensure loaded
+    await imgEl.decode(); 
     const model = await ensureMobilenet();
-    const preds = await model.classify(imgEl, 5); // top 5
+    const preds = await model.classify(imgEl, 5);
     showResult('Hasil prediksi (MobileNet):', preds);
     
-    // simple rule: jika deteksi label "insect" atau "bee" muncul -> tandai "mungkin hama"
+    // Logika Rekomendasi Sederhana
     const isPest = preds.some(p => /insect|bug|fly|bee|ant|beetle|grasshopper/i.test(p.className));
     if (isPest) {
-      // Menampilkan peringatan
       predictionsDiv.insertAdjacentHTML('beforeend', `<p class="mt-2 text-red-700 font-bold">Peringatan: Kemungkinan ditemukan serangga/hama. Periksa lebih lanjut.</p>`); 
-      // Rekomendasi umum untuk serangga
       remedyDisplay.innerHTML = `<div class="bg-red-50 p-3 rounded-md mt-2">
         <h4 class="text-lg font-semibold text-red-700 mb-1">Rekomendasi Penanganan Umum:</h4>
-        <p class="text-sm text-red-600">Karena deteksi umum 'serangga', segera lakukan inspeksi visual. Jika hama teridentifikasi, gunakan insektisida non-sistemik ringan atau metode biologis.</p>
+        <p class="text-sm text-red-600">Karena deteksi umum 'serangga', segera lakukan inspeksi visual. Gunakan insektisida non-sistemik ringan atau metode biologis.</p>
       </div>`;
     } else {
       remedyDisplay.innerHTML = `<div class="bg-green-50 p-3 rounded-md mt-2">
@@ -203,7 +253,7 @@
     }
   }
 
-  // Mock detection (aturan sederhana) — kini dengan rekomendasi HAMA PADI
+  // Mock detection (Simulasi Hama Padi dan Umum)
   function mockDetect() {
     if (!preview.src) { showResult('Silakan pilih gambar terlebih dahulu.'); return; }
     showResult('Menjalankan deteksi simulasi...');
@@ -221,7 +271,7 @@
         { name: 'Penyakit Virus Tungro', remedy: 'Segera cabut tanaman yang terinfeksi parah. Kontrol vektornya, yaitu Wereng Hijau, menggunakan insektisida spesifik.', color: 'red' }
     ];
 
-    // Aturan mock: cek ukuran file -> keputusan acak deterministik
+    // Logika simulasi (acak deterministik berdasarkan ukuran file)
     const file = fileInput.files && fileInput.files[0];
     const size = file ? file.size : 0;
     const seed = (size % 100) / 100;
@@ -232,7 +282,7 @@
         
         showResult(`Hasil Simulasi: Ditemukan ${detectedHama.name}`, [{ className: detectedHama.name, probability: chance }]);
         
-        // Tampilkan rekomendasi di area khusus dengan warna berdasarkan tingkat keparahan
+        // Tampilkan rekomendasi di area khusus
         const bgColor = detectedHama.color === 'red' ? 'bg-red-50' : 'bg-yellow-50';
         const textColor = detectedHama.color === 'red' ? 'text-red-700' : 'text-yellow-700';
         
@@ -249,51 +299,18 @@
         </div>`;
     }
   }
+  
 
-  // Scan button event (mobilenet or custom)
-  btnDetect.addEventListener('click', async () => {
-    if (!preview.src) { showResult('Silakan pilih gambar terlebih dahulu.'); return; }
+  // Custom Model (Opsional, perlu URL model.json)
+  async function classifyWithCustomModel() {
+    // Logika prediksi model custom ada di sini
+    // ... (Anda dapat mengisi ini nanti jika sudah memiliki model.json)
+    showResult('Mode custom belum didukung penuh. Masukkan URL model.json untuk mengaktifkan fitur ini.');
+  }
 
-    if (modelOption.value === 'mobilenet') {
-      try {
-        await classifyWithMobilenet();
-      } catch (err) {
-        console.error(err);
-        showResult('Terjadi error saat prediksi MobileNet. Lihat konsol.');
-      }
-    } else { // custom model
-      const url = customModelUrl.value.trim();
-      if (!url) { showResult('Masukkan URL model.json pada opsi custom.'); return; }
-      try {
-        await loadCustomModel(url);
-        showResult('Melakukan prediksi dengan model custom...');
-        const imgEl = imgElementFromPreview();
-        await imgEl.decode();
-        
-        let t = tf.browser.fromPixels(imgEl).toFloat();
-        t = tf.image.resizeBilinear(t, [224,224]).div(255.0).expandDims(0);
-        const logits = loadedModel.predict(t);
-        const probs = await logits.data();
-        
-        let maxIdx = 0;
-        for (let i=1;i<probs.length;i++) if (probs[i] > probs[maxIdx]) maxIdx = i;
-        
-        showResult(`Prediksi custom: labelIndex=${maxIdx}`, [{ className: `label_${maxIdx}`, probability: probs[maxIdx] }]);
-        
-        // Rekomendasi kosong karena ini model custom (perlu logika mapping label di masa depan)
-        remedyDisplay.innerHTML = `<div class="bg-gray-50 p-3 rounded-md mt-2">
-          <h4 class="text-lg font-semibold text-gray-700 mb-1">Rekomendasi Penanganan:</h4>
-          <p class="text-sm text-gray-600">Output dari model custom (label ${maxIdx}). Perlu ditambahkan logika mapping label ke rekomendasi spesifik.</p>
-        </div>`;
-      
-      } catch (err) {
-        console.error(err);
-        showResult('Gagal memuat / memprediksi model custom. Cek URL & format model TFJS (model.json).');
-      }
-    }
-  });
 
-  // Mock scan button
+  // Event Listener Tombol Utama
+  btnDetect.addEventListener('click', async () => classifyWithMobilenet());
   btnMock.addEventListener('click', () => mockDetect());
 
   // Inisialisasi: kosongkan preview
