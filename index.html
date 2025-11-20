@@ -203,17 +203,22 @@
     }
   }
 
-  // Mock detection (aturan sederhana) — kini dengan rekomendasi
+  // Mock detection (aturan sederhana) — kini dengan rekomendasi HAMA PADI
   function mockDetect() {
     if (!preview.src) { showResult('Silakan pilih gambar terlebih dahulu.'); return; }
     showResult('Menjalankan deteksi simulasi...');
     
-    // Data Rekomendasi Hama
+    // Data Rekomendasi Hama (Termasuk Padi)
     const hamaList = [
+        // Hama Umum Tanaman Kebun
         { name: 'Kutu Kebul', remedy: 'Gunakan insektisida berbahan aktif Imidakloprid atau Tiametoksam sesuai dosis. Non-kimia: Gunakan perangkap kuning lengket.', color: 'red' },
         { name: 'Serangan Ulat (Defoliasi)', remedy: 'Gunakan insektisida biologis Bacillus thuringiensis (Bt) atau pestisida dengan bahan aktif Deltametrin. Siangi hama secara manual.', color: 'red' },
         { name: 'Kekurangan Nitrogen (Menguning)', remedy: 'Segera berikan pupuk yang kaya Nitrogen (Urea atau ZA) melalui aplikasi daun atau tanah.', color: 'yellow' },
-        { name: 'Penyakit Jamur (Bercak Daun)', remedy: 'Gunakan fungisida berbahan aktif Mankozeb atau Azoksistrobin. Kurangi kelembaban daun.', color: 'red' }
+        { name: 'Penyakit Jamur (Bercak Daun)', remedy: 'Gunakan fungisida berbahan aktif Mankozeb atau Azoksistrobin. Kurangi kelembaban daun.', color: 'red' },
+        
+        // Hama Padi (Tambahan)
+        { name: 'Penggerek Batang Padi (Sundep/Beluk)', remedy: 'Keringkan sawah sejenak (intermittent irrigation) dan gunakan insektisida sistemik seperti Fipronil atau Kartap Hidroklorida.', color: 'red' },
+        { name: 'Penyakit Virus Tungro', remedy: 'Segera cabut tanaman yang terinfeksi parah. Kontrol vektornya, yaitu Wereng Hijau, menggunakan insektisida spesifik.', color: 'red' }
     ];
 
     // Aturan mock: cek ukuran file -> keputusan acak deterministik
