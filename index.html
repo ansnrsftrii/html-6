@@ -131,7 +131,7 @@
                 <header class="mb-6 border-b pb-4">
                     <a href="#" onclick="navigate('index')" class="text-sm text-primary hover:underline mb-2 block">← Kembali ke Beranda Aplikasi</a>
                     <h1 class="text-3xl font-bold text-gray-800">🔬 Deteksi Hama Canggih <span id="tanamanTitle" class="text-secondary font-light"></span></h1>
-                    <p class="text-sm text-gray-500 mt-1">Gunakan fitur Simulasi Canggih untuk diagnosis berdasarkan Gejala.</p>
+                    <p class="text-sm text-gray-500 mt-1">Gunakan fitur simulasi untuk diagnosis berdasarkan Gejala.</p>
                 </header>
 
                 <div id="healthComparisonSection" class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6 hidden">
@@ -179,7 +179,7 @@
                         <h2 class="text-lg font-semibold text-gray-700 mb-3">2) Fitur Canggih</h2>
                         <div class="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm text-gray-700">
                             <p class="font-bold text-primary">Simulasi Canggih</p>
-                            <p>Fitur ini mensimulasikan model AI terlatih yang mampu memberikan **diagnosis ganda** (misalnya, hama utama **dan** masalah nutrisi) yang lebih realistis dan terperinci.</p>
+                            <p>Fitur ini mensimulasikan diagnosis ganda (misalnya, hama utama dan masalah nutrisi) yang lebih realistis dan terperinci.</p>
                         </div>
                     </div>
                 </div>
@@ -206,7 +206,8 @@
                                 </ul>
                             </div>
                             <div class="md:w-1/2 mt-4 md:mt-0 flex justify-center items-center text-sm text-gray-500">
-                                                            </div>
+                                <img src="https://via.placeholder.com/200x150?text=Gambar+Sundep" alt="Gambar Sundep" class="rounded-md w-full h-auto object-cover">
+                            </div>
                         </div>
                     </div>
                     
@@ -222,7 +223,8 @@
                                 </ul>
                             </div>
                             <div class="md:w-1/2 mt-4 md:mt-0 flex justify-center items-center text-sm text-gray-500">
-                                                            </div>
+                                <img src="https://via.placeholder.com/200x150?text=Gambar+Wereng" alt="Gambar Wereng Batang Coklat" class="rounded-md w-full h-auto object-cover">
+                            </div>
                         </div>
                     </div>
 
@@ -238,7 +240,8 @@
                                 </ul>
                             </div>
                             <div class="md:w-1/2 mt-4 md:mt-0 flex justify-center items-center text-sm text-gray-500">
-                                                            </div>
+                                <img src="https://via.placeholder.com/200x150?text=Gambar+Tungro" alt="Gambar Virus Tungro" class="rounded-md w-full h-auto object-cover">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -416,369 +419,4 @@
         
         // Atur agar konten yang tampil (max-w-md/lg) sesuai dengan halaman tujuan
         const appContainer = document.getElementById('app-container');
-        if (pageId === 'index') {
-            appContainer.classList.remove('md:max-w-4xl');
-            appContainer.classList.add('md:max-w-lg');
-        } else {
-            appContainer.classList.remove('md:max-w-lg');
-            appContainer.classList.add('md:max-w-4xl');
-        }
-        
-        window.scrollTo(0, 0);
-    }
-
-    // Panggil navigate('index') saat halaman dimuat
-    document.addEventListener('DOMContentLoaded', () => {
-        navigate('index');
-    });
-
-    // =================================================================================
-    // LOGIKA SIMULASI AKUN
-    // =================================================================================
-
-    function toggleAuthView(mode) {
-        const authTitle = document.getElementById('authTitle');
-        const authBtn = document.getElementById('authBtn');
-        const registerFields = document.getElementById('registerFields');
-        const loginViewText = document.querySelector('#login-view p');
-        
-        if (mode === 'register') {
-            authTitle.textContent = 'Buat Akun Baru (Daftar)';
-            authBtn.textContent = 'Daftar';
-            registerFields.classList.remove('hidden');
-            loginViewText.innerHTML = `Sudah punya akun? <a href="#" onclick="toggleAuthView('login')" class="text-primary font-semibold hover:underline">Masuk</a>`;
-        } else {
-            authTitle.textContent = 'Masuk ke Akun AgroScan';
-            authBtn.textContent = 'Masuk';
-            registerFields.classList.add('hidden');
-            loginViewText.innerHTML = `Belum punya akun? <a href="#" onclick="toggleAuthView('register')" class="text-primary font-semibold hover:underline">Daftar Sekarang</a>`;
-        }
-    }
-
-    function simulateLogin() {
-        const authBtn = document.getElementById('authBtn');
-        const isRegister = authBtn.textContent === 'Daftar';
-        
-        // Simulasi validasi dasar
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-
-        if (!email || !password || (isRegister && !document.getElementById('regName').value)) {
-            alert('Silakan isi semua kolom yang diperlukan.');
-            return;
-        }
-
-        // Tampilkan loading/status
-        const originalText = authBtn.textContent;
-        authBtn.textContent = isRegister ? 'Memproses Pendaftaran...' : 'Memverifikasi...';
-        authBtn.disabled = true;
-
-        setTimeout(() => {
-            // Simulasi sukses login/register
-            isAuthenticated = true;
-            alert(isRegister ? 'Pendaftaran berhasil! Selamat datang.' : 'Login berhasil!');
-            
-            // Pindah ke tampilan profil
-            document.getElementById('login-view').classList.add('hidden');
-            document.getElementById('profile-view').classList.remove('hidden');
-            
-            // Reset tombol
-            authBtn.textContent = originalText;
-            authBtn.disabled = false;
-        }, 1500);
-    }
-
-    function simulateLogout() {
-        isAuthenticated = false;
-        alert('Anda telah keluar dari akun.');
-        navigate('profile'); // Kembali ke halaman profile, yang akan memicu pengecekan login
-    }
-
-    // =================================================================================
-    // LOGIKA DETEKSI HAMA (HANYA SIMULASI)
-    // =================================================================================
-    
-    // Data Hama dan Masalah
-    const PADI_PROBLEMS = [
-        { name: 'Penggerek Batang Padi (Sundep/Beluk)', remedy: 'Keringkan sawah sejenak dan gunakan insektisida sistemik Fipronil.', type: 'danger', priority: 1, link: '#sundep' },
-        { name: 'Wereng Batang Coklat (WBC)', remedy: 'Gunakan varietas tahan wereng. Aplikasi insektisida sistemik BPMC pada populasi tinggi.', type: 'danger', priority: 1, link: '#wereng' },
-        { name: 'Penyakit Virus Tungro', remedy: 'Cabut tanaman terinfeksi parah. Kontrol vektor Wereng Hijau dengan insektisida spesifik.', type: 'danger', priority: 1, link: '#tungro' },
-        { name: 'Kekurangan Nitrogen (Daun Kuning)', remedy: 'Segera berikan pupuk Urea atau ZA.', type: 'warning', priority: 2, link: '' },
-        { name: 'Kekurangan Kalium (Ujung Daun Kering)', remedy: 'Tambahkan pupuk KCL.', type: 'warning', priority: 2, link: '' }
-    ];
-
-    const UMUM_PROBLEMS = [ 
-        { name: 'Kutu Kebul/Aphid (Daun Keriting)', remedy: 'Gunakan insektisida Imidakloprid. Alternatif: semprotan air sabun.', type: 'danger', priority: 1, link: '' },
-        { name: 'Penyakit Jamur (Bercak Daun)', remedy: 'Aplikasi fungisida Mankozeb atau Azoksistrobin. Kurangi kelembaban.', type: 'danger', priority: 1, link: '' },
-        { name: 'Serangan Ulat Defoliasi', remedy: 'Gunakan insektisida biologis Bacillus thuringiensis (Bt).', type: 'danger', priority: 1, link: '' },
-        { name: 'Kekurangan Fosfor (Daun Ungu/Merah)', remedy: 'Berikan pupuk SP-36 atau NPK yang mengandung Fosfor tinggi.', type: 'warning', priority: 2, link: '' },
-        { name: 'Kekurangan Kalsium (Bunga Busuk)', remedy: 'Tambahkan pupuk Kalsium Boron.', type: 'warning', priority: 2, link: '' }
-    ];
-
-    // Data Gambar Perbandingan (menggunakan placeholder URL)
-    const PLANT_IMAGES = {
-        padi: {
-            healthy: 'https://cdn.pixabay.com/photo/2018/02/09/16/36/rice-field-3142279_1280.jpg', 
-            diseased: 'https://i.ibb.co/6y4tW65/diseased-padi.jpg' 
-        },
-        cabai: {
-            healthy: 'https://cdn.pixabay.com/photo/2017/08/07/04/54/chili-2592534_1280.jpg', 
-            diseased: 'https://i.ibb.co/hK5Xj1P/diseased-chili.jpg'
-        },
-        jagung: {
-            healthy: 'https://cdn.pixabay.com/photo/2016/06/17/04/18/corn-1463133_1280.jpg', 
-            diseased: 'https://i.ibb.co/L5Q4m9W/diseased-corn.jpg'
-        },
-        tomat: {
-            healthy: 'https://cdn.pixabay.com/photo/2016/09/08/13/21/tomatoes-1655979_1280.jpg', 
-            diseased: 'https://i.ibb.co/T4p2w1X/diseased-tomato.jpg'
-        },
-        sayuran: {
-            healthy: 'https://cdn.pixabay.com/photo/2017/09/26/13/37/vegetables-2788537_1280.jpg', 
-            diseased: 'https://i.ibb.co/K2N2XjX/diseased-vegetable.jpg'
-        }
-    };
-
-    let selectedType = 'umum';
-
-    function initializeDetectPage(params) {
-        selectedType = params.type || 'umum';
-        const tanamanTitle = document.getElementById('tanamanTitle');
-        const preview = document.getElementById('preview');
-        const resultArea = document.getElementById('resultArea');
-        const fileInput = document.getElementById('fileInput');
-        const healthComparisonSection = document.getElementById('healthComparisonSection');
-        const healthyPlantImageDiv = document.getElementById('healthyPlantImage');
-        const diseasedPlantImageDiv = document.getElementById('diseasedPlantImage');
-        const healthyPlantRating = document.getElementById('healthyPlantRating');
-        const diseasedPlantRating = document.getElementById('diseasedPlantRating');
-
-
-        // Reset tampilan
-        if (tanamanTitle) {
-            tanamanTitle.textContent = selectedType === 'padi' ? '— Tanaman Padi' : selectedType.charAt(0).toUpperCase() + selectedType.slice(1);
-        }
-        if (preview) {
-            preview.style.display = 'none';
-            preview.src = '';
-        }
-        if (resultArea) {
-            resultArea.classList.add('hidden');
-        }
-        if (fileInput) {
-             fileInput.value = null;
-        }
-
-        // Tampilkan Bagian Perbandingan Kesehatan Tanaman
-        if (healthComparisonSection) {
-            const plantData = PLANT_IMAGES[selectedType] || PLANT_IMAGES.sayuran;
-            
-            // Perbarui tag Image untuk gambar
-            if(healthyPlantImageDiv) healthyPlantImageDiv.innerHTML = `<img src="${plantData.healthy}" alt="Tanaman Sehat" class="w-full h-full object-cover rounded-md">`;
-            if(diseasedPlantImageDiv) diseasedPlantImageDiv.innerHTML = `<img src="${plantData.diseased}" alt="Tanaman Terserang Hama" class="w-full h-full object-cover rounded-md">`;
-
-            // Tentukan Rating simulasi
-            const healthyRating = (Math.random() * (99 - 90) + 90).toFixed(0);
-            const diseasedRating = (Math.random() * (50 - 30) + 30).toFixed(0);
-
-            if(healthyPlantRating) healthyPlantRating.textContent = `Kesehatan: ${healthyRating}%`;
-            if(diseasedPlantRating) diseasedPlantRating.textContent = `Kesehatan: ${diseasedRating}%`;
-
-            healthComparisonSection.classList.remove('hidden');
-        }
-
-
-        // Tautkan kembali event listener karena elemen dimuat ulang atau dipindahkan
-        document.getElementById('fileInput').addEventListener('change', handleFileChange);
-        
-        // Pastikan tombol mock (simulasi) diinisialisasi
-        const btnMock = document.getElementById('btnMock');
-        if (btnMock) {
-            btnMock.onclick = mockDetect;
-        }
-        
-        // Jika dari beranda, beri tautan ke info-padi.html, perbaiki tautan link di data
-        const currentProblems = selectedType === 'padi' ? PADI_PROBLEMS : UMUM_PROBLEMS;
-        currentProblems.forEach(p => {
-             if (p.link && p.link.startsWith('#')) {
-                // Perbaikan link untuk navigasi di HTML satu file
-                p.link = `javascript:navigate('info-padi'); setTimeout(() => { document.querySelector('${p.link}').scrollIntoView({ behavior: 'smooth' }); }, 100);`;
-            }
-        });
-    }
-
-    // Fungsi util: tampilkan hasil diagnosis
-    function showResult(problems) {
-        const resultArea = document.getElementById('resultArea');
-        const status = document.getElementById('status');
-        const predictionsDiv = document.getElementById('predictions');
-        const remedyDisplay = document.getElementById('remedyDisplay');
-        
-        if (!resultArea || !status || !predictionsDiv || !remedyDisplay) return;
-
-        resultArea.classList.remove('hidden');
-        predictionsDiv.innerHTML = '';
-        remedyDisplay.innerHTML = ''; 
-
-        if (problems.length === 0) {
-            resultArea.className = 'mt-6 p-4 bg-green-50 border border-green-200 rounded-lg';
-            status.className = 'text-green-700 font-bold mb-2';
-            status.textContent = '✅ Tanaman Sehat / Normal';
-            remedyDisplay.innerHTML = `<div class="bg-green-100 p-3 rounded-md mt-2">
-                <p class="text-sm text-green-700">Tidak terdeteksi hama atau masalah signifikan. Lanjutkan program perawatan rutin.</p>
-            </div>`;
-            return;
-        }
-
-        const primaryColor = problems.some(p => p.type === 'danger') ? 'danger' : 'warning';
-        const bgColor = primaryColor === 'danger' ? 'bg-red-50' : 'bg-yellow-50';
-        const borderColor = primaryColor === 'danger' ? 'border-red-200' : 'border-yellow-200';
-        const statusColor = primaryColor === 'danger' ? 'text-red-700' : 'text-yellow-700';
-
-        resultArea.className = `mt-6 p-4 ${bgColor} border ${borderColor} rounded-lg`;
-        status.className = `${statusColor} font-bold mb-2`;
-        status.textContent = `🚨 Hasil Diagnosis: Ditemukan ${problems.length} Masalah!`;
-
-        let remedyContent = `<h4 class="text-lg font-bold ${statusColor} mb-2">💊 Rekomendasi Penanganan:</h4>`;
-
-        problems.forEach((p, index) => {
-            const itemColor = p.type === 'danger' ? 'text-red-600' : 'text-yellow-600';
-            
-            const li = document.createElement('li');
-            li.className = itemColor;
-            li.textContent = `${index + 1}. ${p.name} (Prioritas ${p.priority === 1 ? 'Tinggi' : 'Menengah'})`;
-            predictionsDiv.appendChild(li);
-
-            const linkHtml = p.link ? `<a href="${p.link}" class="text-primary hover:underline font-semibold ml-2">(Lihat Detail)</a>` : '';
-            
-            remedyContent += `<div class="mt-3 ${p.type === 'danger' ? 'border-l-4 border-red-400 pl-3' : 'border-l-4 border-yellow-400 pl-3'}">
-                <p class="text-sm ${itemColor} font-semibold">${p.name}:</p>
-                <p class="text-xs text-gray-700">${p.remedy} ${linkHtml}</p>
-            </div>`;
-        });
-        
-        remedyDisplay.innerHTML = remedyContent;
-    }
-
-    // Preview gambar
-    function handleFileChange(ev) {
-        const preview = document.getElementById('preview');
-        const resultArea = document.getElementById('resultArea');
-        const remedyDisplay = document.getElementById('remedyDisplay');
-        
-        const f = ev.target.files && ev.target.files[0];
-        if (!f) return;
-        const url = URL.createObjectURL(f);
-        if (preview) {
-             preview.src = url;
-             preview.style.display = 'block';
-        }
-        if (resultArea) resultArea.classList.add('hidden');
-        if (remedyDisplay) remedyDisplay.innerHTML = '';
-    }
-    
-    // Mock detection (Simulasi Canggih)
-    function mockDetect() {
-        const fileInput = document.getElementById('fileInput');
-        const preview = document.getElementById('preview');
-        const status = document.getElementById('status');
-        
-        if (!preview || !fileInput || !fileInput.files || fileInput.files.length === 0) {
-            if (status) status.textContent = 'Silakan pilih gambar terlebih dahulu.';
-            showResult([]);
-            return;
-        }
-        
-        // Nonaktifkan tombol selama proses simulasi
-        const btnMock = document.getElementById('btnMock');
-        if (btnMock) {
-            btnMock.disabled = true;
-            btnMock.textContent = 'Memindai...';
-        }
-
-        if (status) status.textContent = `Menjalankan analisis cerdas...`;
-
-        const allProblems = selectedType === 'padi' ? PADI_PROBLEMS : UMUM_PROBLEMS;
-        
-        const detectedProblems = [];
-        
-        // 1. Deteksi Hama Utama (Prioritas 1) - 40% chance
-        if (Math.random() < 0.4) {
-            const highPriority = allProblems.filter(p => p.priority === 1);
-            const detectedHama = highPriority[Math.floor(Math.random() * highPriority.length)];
-            detectedProblems.push(detectedHama);
-        }
-
-        // 2. Deteksi Masalah Nutrisi (Prioritas 2) - 30% chance
-        if (Math.random() < 0.3) {
-            const mediumPriority = allProblems.filter(p => p.priority === 2);
-            if (mediumPriority.length > 0) {
-                const detectedNutrisi = mediumPriority[Math.floor(Math.random() * mediumPriority.length)];
-                if (!detectedProblems.find(p => p.name === detectedNutrisi.name)) {
-                    detectedProblems.push(detectedNutrisi);
-                }
-            }
-        }
-
-        // Menambahkan delay simulasi untuk pengalaman pengguna
-        setTimeout(() => {
-             showResult(detectedProblems);
-             if (btnMock) {
-                btnMock.disabled = false;
-                btnMock.textContent = 'Scan (Simulasi Canggih)';
-            }
-        }, 1500); // Tunda hasil 1.5 detik
-       
-    }
-    
-    // =================================================================================
-    // LOGIKA KALKULATOR PUPUK
-    // =================================================================================
-    
-    document.addEventListener('DOMContentLoaded', () => {
-        const calculateBtn = document.getElementById('calculateBtn');
-        if (calculateBtn) {
-            calculateBtn.addEventListener('click', calculatePupuk);
-        }
-    });
-
-    function calculatePupuk() {
-        const luasLahanInput = document.getElementById('luasLahan');
-        const jenisTanamanSelect = document.getElementById('jenisTanaman');
-        const resultPupukDiv = document.getElementById('resultPupuk');
-        const dosisDetailsDiv = document.getElementById('dosisDetails');
-        
-        if (!luasLahanInput || !jenisTanamanSelect || !resultPupukDiv || !dosisDetailsDiv) return;
-
-        const luas = parseFloat(luasLahanInput.value);
-        const jenis = jenisTanamanSelect.value;
-
-        if (isNaN(luas) || luas <= 0) {
-            alert('Masukkan luas lahan yang valid.');
-            return;
-        }
-
-        const BASE_DOSIS = {
-            padi: { Urea: 250, NPK: 300, KCL: 100 },
-            jagung: { Urea: 300, NPK: 400, Za: 50 },
-            cabai: { Urea: 150, NPK: 500, TSP: 100 }
-        };
-
-        const dosisDasar = BASE_DOSIS[jenis];
-        
-        dosisDetailsDiv.innerHTML = '';
-        
-        for (const pupuk in dosisDasar) {
-            const totalDosis = dosisDasar[pupuk] * luas;
-            
-            const div = document.createElement('div');
-            div.className = 'flex justify-between border-b border-primary/30 pb-1';
-            div.innerHTML = `<span class="font-semibold text-textDark">${pupuk}:</span> <span class="text-primary font-bold">${totalDosis.toFixed(0)} kg</span>`;
-            dosisDetailsDiv.appendChild(div);
-        }
-        
-        resultPupukDiv.classList.remove('hidden');
-    }
-</script>
-</body>
-</html>
+        if
