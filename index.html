@@ -412,14 +412,14 @@
             if (pageId === 'detect') {
                 initializeDetectPage(params);
             } else if (pageId === 'profile') {
-                // Saat pindah ke halaman profil, cek status login
+                // LOGIKA PENTING: Menentukan apakah menampilkan Login atau Profil
                 if (isAuthenticated) {
-                    document.getElementById('profile-view').classList.remove('hidden');
                     document.getElementById('login-view').classList.add('hidden');
+                    document.getElementById('profile-view').classList.remove('hidden');
                 } else {
                     document.getElementById('login-view').classList.remove('hidden');
                     document.getElementById('profile-view').classList.add('hidden');
-                    toggleAuthView('login'); // Pastikan default adalah Login
+                    toggleAuthView('login'); // Pastikan default adalah tampilan Login
                 }
             }
         }
@@ -443,27 +443,25 @@
     });
 
     // =================================================================================
-    // LOGIKA SIMULASI AKUN (BARU)
+    // LOGIKA SIMULASI AKUN
     // =================================================================================
 
     function toggleAuthView(mode) {
         const authTitle = document.getElementById('authTitle');
         const authBtn = document.getElementById('authBtn');
         const registerFields = document.getElementById('registerFields');
-        const currentLink = document.querySelector('#login-view p a');
+        const loginViewText = document.querySelector('#login-view p');
         
         if (mode === 'register') {
             authTitle.textContent = 'Buat Akun Baru (Daftar)';
             authBtn.textContent = 'Daftar';
             registerFields.classList.remove('hidden');
-            currentLink.innerHTML = 'Sudah punya akun? <span class="text-primary font-semibold hover:underline">Masuk</span>';
-            currentLink.onclick = () => toggleAuthView('login');
+            loginViewText.innerHTML = `Sudah punya akun? <a href="#" onclick="toggleAuthView('login')" class="text-primary font-semibold hover:underline">Masuk</a>`;
         } else {
             authTitle.textContent = 'Masuk ke Akun AgroScan';
             authBtn.textContent = 'Masuk';
             registerFields.classList.add('hidden');
-            currentLink.innerHTML = 'Belum punya akun? <span class="text-primary font-semibold hover:underline">Daftar Sekarang</span>';
-            currentLink.onclick = () => toggleAuthView('register');
+            loginViewText.innerHTML = `Belum punya akun? <a href="#" onclick="toggleAuthView('register')" class="text-primary font-semibold hover:underline">Daftar Sekarang</a>`;
         }
     }
 
@@ -503,14 +501,14 @@
     function simulateLogout() {
         isAuthenticated = false;
         alert('Anda telah keluar dari akun.');
-        navigate('profile'); // Kembali ke halaman profile, yang akan menampilkan login-view
+        navigate('profile'); // Kembali ke halaman profile, yang akan memicu pengecekan login
     }
 
     // =================================================================================
     // LOGIKA DETEKSI HAMA (kode lama)
     // =================================================================================
     
-    // Data Hama dan Masalah
+    // Data Hama dan Masalah (sama seperti sebelumnya)
     const PADI_PROBLEMS = [
         { name: 'Penggerek Batang Padi (Sundep/Beluk)', remedy: 'Keringkan sawah sejenak dan gunakan insektisida sistemik Fipronil.', type: 'danger', priority: 1, link: '#sundep' },
         { name: 'Wereng Batang Coklat (WBC)', remedy: 'Gunakan varietas tahan wereng. Aplikasi insektisida sistemik BPMC pada populasi tinggi.', type: 'danger', priority: 1, link: '#wereng' },
@@ -519,7 +517,7 @@
         { name: 'Kekurangan Kalium (Ujung Daun Kering)', remedy: 'Tambahkan pupuk KCL.', type: 'warning', priority: 2, link: '' }
     ];
 
-    const UMUM_PROBLEMS = [ // Ini akan mencakup Cabai, Jagung, Tomat, Sayuran umum
+    const UMUM_PROBLEMS = [ 
         { name: 'Kutu Kebul/Aphid (Daun Keriting)', remedy: 'Gunakan insektisida Imidakloprid. Alternatif: semprotan air sabun.', type: 'danger', priority: 1, link: '' },
         { name: 'Penyakit Jamur (Bercak Daun)', remedy: 'Aplikasi fungisida Mankozeb atau Azoksistrobin. Kurangi kelembaban.', type: 'danger', priority: 1, link: '' },
         { name: 'Serangan Ulat Defoliasi', remedy: 'Gunakan insektisida biologis Bacillus thuringiensis (Bt).', type: 'danger', priority: 1, link: '' },
@@ -529,28 +527,12 @@
 
     // Data Gambar Tanaman Sehat dan Terserang Hama
     const PLANT_IMAGES = {
-        padi: {
-            healthy: 'gambar padi sawah sehat', 
-            diseased: 'gambar padi terserang wereng atau sundep'
-        },
-        cabai: {
-            healthy: 'gambar tanaman cabai sehat',
-            diseased: 'gambar daun cabai keriting atau kuning'
-        },
-        jagung: {
-            healthy: 'gambar tanaman jagung sehat',
-            diseased: 'gambar daun jagung bercak atau layu'
-        },
-        tomat: {
-            healthy: 'gambar tanaman tomat sehat',
-            diseased: 'gambar daun tomat bercak atau busuk buah'
-        },
-        sayuran: { // Untuk kategori umum/sayuran
-            healthy: 'gambar sayuran daun hijau segar',
-            diseased: 'gambar sayuran daun berlubang dan layu'
-        }
+        padi: { healthy: 'gambar padi sawah sehat', diseased: 'gambar padi terserang wereng atau sundep' },
+        cabai: { healthy: 'gambar tanaman cabai sehat', diseased: 'gambar daun cabai keriting atau kuning' },
+        jagung: { healthy: 'gambar tanaman jagung sehat', diseased: 'gambar daun jagung bercak atau layu' },
+        tomat: { healthy: 'gambar tanaman tomat sehat', diseased: 'gambar daun tomat bercak atau busuk buah' },
+        sayuran: { healthy: 'gambar sayuran daun hijau segar', diseased: 'gambar sayuran daun berlubang dan layu' }
     };
-
 
     let selectedType = 'umum';
 
