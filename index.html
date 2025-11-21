@@ -26,9 +26,7 @@
             }
         }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.9.0/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@3.10.0/dist/mobilenet.min.js"></script>
-</head>
+    </head>
 <body class="bg-gray-100 min-h-screen font-sans">
     
     <div id="app-container" class="max-w-md mx-auto bg-white shadow-lg rounded-b-3xl overflow-hidden md:max-w-lg">
@@ -165,9 +163,6 @@
                         </div>
 
                         <div class="flex space-x-4 mt-6">
-                            <button id="btnDetect" class="flex-1 py-3 px-4 bg-gray-300 text-gray-700 font-bold rounded-lg shadow-md transition duration-150 disabled:opacity-50" disabled>
-                                Scan (MobileNet - Umum)
-                            </button>
                             <button id="btnMock" class="flex-1 py-3 px-4 bg-primary text-white font-bold rounded-lg shadow-md hover:bg-secondary transition duration-150 disabled:opacity-50">
                                 Scan (Simulasi Canggih)
                             </button>
@@ -500,7 +495,7 @@
     }
 
     // =================================================================================
-    // LOGIKA DETEKSI HAMA
+    // LOGIKA DETEKSI HAMA (HANYA SIMULASI)
     // =================================================================================
     
     // Data Hama dan Masalah
@@ -523,7 +518,6 @@
     // Data Gambar Perbandingan (menggunakan placeholder URL)
     const PLANT_IMAGES = {
         padi: {
-            // URL placeholder, ganti dengan URL gambar sebenarnya jika ada
             healthy: 'https://cdn.pixabay.com/photo/2018/02/09/16/36/rice-field-3142279_1280.jpg', 
             diseased: 'https://i.ibb.co/6y4tW65/diseased-padi.jpg' 
         },
