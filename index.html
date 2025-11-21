@@ -128,6 +128,94 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AgroScan - Katalog Hama Padi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#10B981', 
+            secondary: '#047857', 
+            danger: '#EF4444',
+            accent: '#ECFDF5',
+          },
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen p-4 sm:p-8">
+  <div class="max-w-4xl mx-auto bg-white shadow-xl rounded-xl p-6 lg:p-8">
+    
+    <header class="mb-6 border-b pb-4">
+      <a href="index.html" class="text-sm text-primary hover:underline mb-2 block">← Kembali ke Beranda Aplikasi</a>
+      <h1 class="text-3xl font-bold text-gray-800">📖 Katalog Hama & Penyakit Padi</h1>
+      <p class="text-sm text-gray-500 mt-1">Pelajari lebih dalam ciri-ciri, gejala, dan pengendalian hama padi utama.</p>
+    </header>
+
+    <div class="space-y-8">
+      
+            <div class="p-6 bg-accent rounded-lg border-l-4 border-danger shadow-md">
+        <h2 class="text-2xl font-bold text-danger mb-3">🐛 Penggerek Batang Padi</h2>
+        <p class="text-sm text-gray-700 mb-4">Penggerek Batang (larva ngengat) masuk ke dalam batang padi. Dikenal sebagai **Sundep** pada fase muda dan **Beluk** pada fase berbuah.</p>
+        <div class="md:flex md:space-x-4">
+          <div class="md:w-1/2">
+            <h3 class="font-semibold text-gray-800 mt-2">Gejala Utama:</h3>
+            <ul class="list-disc list-inside text-sm text-gray-600">
+              <li>Pucuk daun mati dan mengering (*Sundep*).</li>
+              <li>Malai putih, hampa, dan tegak (*Beluk*).</li>
+            </ul>
+          </div>
+          <div class="md:w-1/2 mt-4 md:mt-0">
+            
+          </div>
+        </div>
+      </div>
+      
+            <div class="p-6 bg-accent rounded-lg border-l-4 border-danger shadow-md">
+        <h2 class="text-2xl font-bold text-danger mb-3">🪲 Wereng Batang Coklat (WBC)</h2>
+        <p class="text-sm text-gray-700 mb-4">Wereng menghisap cairan batang padi, seringkali menyebabkan *hopperburn* (padi kering seperti terbakar).</p>
+        <div class="md:flex md:space-x-4">
+          <div class="md:w-1/2">
+            <h3 class="font-semibold text-gray-800 mt-2">Gejala Utama:</h3>
+            <ul class="list-disc list-inside text-sm text-gray-600">
+              <li>Tanaman mengering dan mati secara melingkar (*hopperburn*).</li>
+              <li>Ditemukan serangga kecil berwarna coklat di pangkal batang.</li>
+            </ul>
+          </div>
+          <div class="md:w-1/2 mt-4 md:mt-0">
+            
+          </div>
+        </div>
+      </div>
+
+            <div class="p-6 bg-accent rounded-lg border-l-4 border-danger shadow-md">
+        <h2 class="text-2xl font-bold text-danger mb-3">🦠 Virus Tungro</h2>
+        <p class="text-sm text-gray-700 mb-4">Penyakit virus yang ditularkan oleh Wereng Hijau. Dapat menyebabkan kerugian hasil panen yang sangat besar.</p>
+        <div class="md:flex md:space-x-4">
+          <div class="md:w-1/2">
+            <h3 class="font-semibold text-gray-800 mt-2">Gejala Utama:</h3>
+            <ul class="list-disc list-inside text-sm text-gray-600">
+              <li>Tanaman menjadi kerdil dan daunnya menguning sampai oranye.</li>
+              <li>Daun termuda seringkali memiliki bercak berkarat.</li>
+            </ul>
+          </div>
+          <div class="md:w-1/2 mt-4 md:mt-0">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>AgroScan - Deteksi Hama</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
