@@ -520,13 +520,29 @@
         { name: 'Kekurangan Kalsium (Bunga Busuk)', remedy: 'Tambahkan pupuk Kalsium Boron.', type: 'warning', priority: 2, link: '' }
     ];
 
-    // Data Gambar Tanaman Sehat dan Terserang Hama
+    // Data Gambar Perbandingan (menggunakan placeholder URL)
     const PLANT_IMAGES = {
-        padi: { healthy: 'gambar padi sawah sehat', diseased: 'gambar padi terserang wereng atau sundep' },
-        cabai: { healthy: 'gambar tanaman cabai sehat', diseased: 'gambar daun cabai keriting atau kuning' },
-        jagung: { healthy: 'gambar tanaman jagung sehat', diseased: 'gambar daun jagung bercak atau layu' },
-        tomat: { healthy: 'gambar tanaman tomat sehat', diseased: 'gambar daun tomat bercak atau busuk buah' },
-        sayuran: { healthy: 'gambar sayuran daun hijau segar', diseased: 'gambar sayuran daun berlubang dan layu' }
+        padi: {
+            // URL placeholder, ganti dengan URL gambar sebenarnya jika ada
+            healthy: 'https://cdn.pixabay.com/photo/2018/02/09/16/36/rice-field-3142279_1280.jpg', 
+            diseased: 'https://i.ibb.co/6y4tW65/diseased-padi.jpg' 
+        },
+        cabai: {
+            healthy: 'https://cdn.pixabay.com/photo/2017/08/07/04/54/chili-2592534_1280.jpg', 
+            diseased: 'https://i.ibb.co/hK5Xj1P/diseased-chili.jpg'
+        },
+        jagung: {
+            healthy: 'https://cdn.pixabay.com/photo/2016/06/17/04/18/corn-1463133_1280.jpg', 
+            diseased: 'https://i.ibb.co/L5Q4m9W/diseased-corn.jpg'
+        },
+        tomat: {
+            healthy: 'https://cdn.pixabay.com/photo/2016/09/08/13/21/tomatoes-1655979_1280.jpg', 
+            diseased: 'https://i.ibb.co/T4p2w1X/diseased-tomato.jpg'
+        },
+        sayuran: {
+            healthy: 'https://cdn.pixabay.com/photo/2017/09/26/13/37/vegetables-2788537_1280.jpg', 
+            diseased: 'https://i.ibb.co/K2N2XjX/diseased-vegetable.jpg'
+        }
     };
 
     let selectedType = 'umum';
@@ -564,8 +580,8 @@
             const plantData = PLANT_IMAGES[selectedType] || PLANT_IMAGES.sayuran;
             
             // Perbarui tag Image untuk gambar
-            if(healthyPlantImageDiv) healthyPlantImageDiv.innerHTML = ``;
-            if(diseasedPlantImageDiv) diseasedPlantImageDiv.innerHTML = ``;
+            if(healthyPlantImageDiv) healthyPlantImageDiv.innerHTML = `<img src="${plantData.healthy}" alt="Tanaman Sehat" class="w-full h-full object-cover rounded-md">`;
+            if(diseasedPlantImageDiv) diseasedPlantImageDiv.innerHTML = `<img src="${plantData.diseased}" alt="Tanaman Terserang Hama" class="w-full h-full object-cover rounded-md">`;
 
             // Tentukan Rating simulasi
             const healthyRating = (Math.random() * (99 - 90) + 90).toFixed(0);
@@ -580,7 +596,12 @@
 
         // Tautkan kembali event listener karena elemen dimuat ulang atau dipindahkan
         document.getElementById('fileInput').addEventListener('change', handleFileChange);
-        document.getElementById('btnMock').addEventListener('click', mockDetect);
+        
+        // Pastikan tombol mock (simulasi) diinisialisasi
+        const btnMock = document.getElementById('btnMock');
+        if (btnMock) {
+            btnMock.onclick = mockDetect;
+        }
         
         // Jika dari beranda, beri tautan ke info-padi.html, perbaiki tautan link di data
         const currentProblems = selectedType === 'padi' ? PADI_PROBLEMS : UMUM_PROBLEMS;
@@ -634,7 +655,7 @@
             li.textContent = `${index + 1}. ${p.name} (Prioritas ${p.priority === 1 ? 'Tinggi' : 'Menengah'})`;
             predictionsDiv.appendChild(li);
 
-            const linkHtml = p.link ? `<a href="#" onclick="${p.link}" class="text-primary hover:underline font-semibold ml-2">(Lihat Detail)</a>` : '';
+            const linkHtml = p.link ? `<a href="${p.link}" class="text-primary hover:underline font-semibold ml-2">(Lihat Detail)</a>` : '';
             
             remedyContent += `<div class="mt-3 ${p.type === 'danger' ? 'border-l-4 border-red-400 pl-3' : 'border-l-4 border-yellow-400 pl-3'}">
                 <p class="text-sm ${itemColor} font-semibold">${p.name}:</p>
@@ -674,6 +695,13 @@
             return;
         }
         
+        // Nonaktifkan tombol selama proses simulasi
+        const btnMock = document.getElementById('btnMock');
+        if (btnMock) {
+            btnMock.disabled = true;
+            btnMock.textContent = 'Memindai...';
+        }
+
         if (status) status.textContent = `Menjalankan analisis cerdas...`;
 
         const allProblems = selectedType === 'padi' ? PADI_PROBLEMS : UMUM_PROBLEMS;
@@ -701,6 +729,10 @@
         // Menambahkan delay simulasi untuk pengalaman pengguna
         setTimeout(() => {
              showResult(detectedProblems);
+             if (btnMock) {
+                btnMock.disabled = false;
+                btnMock.textContent = 'Scan (Simulasi Canggih)';
+            }
         }, 1500); // Tunda hasil 1.5 detik
        
     }
