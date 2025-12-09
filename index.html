@@ -1,789 +1,667 @@
 <!doctype html>
 <html lang="id">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>AgroScan - Aplikasi Pertanian Modern All-in-One</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>AgroScan - Aplikasi Pertanian Modern All-in-One</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        // Konfigurasi Tailwind CSS
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#10B981', // Hijau Cerah
-                        secondary: '#047857', // Hijau Lebih Gelap
-                        accent: '#ECFDF5', // Latar belakang elemen ringan
-                        textDark: '#1F2937', // Teks gelap
-                        textMuted: '#6B7280', // Teks abu-abu
-                        danger: '#EF4444', // Merah untuk Hama
-                        warning: '#f97316', // Oranye
-                        success: '#22C55E', // Hijau untuk rating sehat
-                    },
-                    screens: { 'md': '768px', 'lg': '1024px' }
-                }
-            }
-        }
-    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Konfigurasi Tailwind CSS
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#10B981', // Hijau Cerah
+                        secondary: '#047857', // Hijau Lebih Gelap
+                        accent: '#ECFDF5', // Latar belakang elemen ringan
+                        textDark: '#1F2937', // Teks gelap
+                        textMuted: '#6B7280', // Teks abu-abu
+                        danger: '#EF4444', // Merah untuk Hama
+                        warning: '#f97316', // Oranye
+                        success: '#22C55E', // Hijau untuk rating sehat
+                    },
+                    screens: { 'md': '768px', 'lg': '1024px' }
+                }
+            }
+        }
+    </script>
 </head>
 <body class="bg-gray-100 min-h-screen font-sans">
-    
-    <div id="app-container" class="max-w-md mx-auto bg-white shadow-lg rounded-b-3xl overflow-hidden md:max-w-lg">
+    
+    <div id="app-container" class="max-w-md mx-auto bg-white shadow-lg rounded-b-3xl overflow-hidden md:max-w-lg">
 
-        <div id="page-index" data-page="index" class="min-h-screen">
-            
-            <div class="bg-primary px-6 py-4 flex items-center justify-between text-white">
-                <div class="flex items-center">
-                    <span class="text-2xl font-bold mr-2">🌱</span>
-                    <h1 class="text-xl font-semibold">AgroScan</h1>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <button class="focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.007 2.007 0 0118 14.07V10c0-2.856-2.572-5.186-5.714-5.186S6.572 7.144 6.572 10v4.07c0 .762-.317 1.49-.87 2.01L4 17h5m6 0v1a3 3 0 01-6 0v-1m6 0H9"/></svg></button>
-                    <button onclick="navigate('profile')" class="focus:outline-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    </button>
-                </div>
-            </div>
+        <div id="page-index" data-page="index" class="min-h-screen">
+            
+            <div class="bg-primary px-6 py-4 flex items-center justify-between text-white">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold mr-2">🌱</span>
+                    <h1 class="text-xl font-semibold">AgroScan</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.007 2.007 0 0118 14.07V10c0-2.856-2.572-5.186-5.714-5.186S6.572 7.144 6.572 10v4.07c0 .762-.317 1.49-.87 2.01L4 17h5m6 0v1a3 3 0 01-6 0v-1m6 0H9"/></svg></button>
+                    <button onclick="navigate('profile')" class="focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </button>
+                </div>
+            </div>
 
-            <div class="bg-primary pt-2 pb-6 px-6 relative z-10">
-                <h2 class="text-white text-base mb-3 opacity-90">Pilih Tanaman Anda</h2>
-                <div class="flex space-x-4 overflow-x-auto pb-2">
-                    <div class="flex-shrink-0 text-center">
-                        <a href="#" onclick="navigate('detect', {type: 'padi'})" class="block w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md mb-1"><span class="text-3xl">🌾</span></a>
-                        <p class="text-xs text-white opacity-90">Padi</p>
-                    </div>
-                    <div class="flex-shrink-0 text-center">
-                        <a href="#" onclick="navigate('detect', {type: 'cabai'})" class="block w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md mb-1"><span class="text-3xl">🌶️</span></a>
-                        <p class="text-xs text-white opacity-90">Cabai</p>
-                    </div>
-                    <div class="flex-shrink-0 text-center">
-                        <a href="#" onclick="navigate('detect', {type: 'jagung'})" class="block w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md mb-1"><span class="text-3xl">🌽</span></a>
-                        <p class="text-xs text-white opacity-90">Jagung</p>
-                    </div>
-                    <div class="flex-shrink-0 text-center">
-                        <a href="#" onclick="navigate('detect', {type: 'tomat'})" class="block w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md mb-1"><span class="text-3xl">🍅</span></a>
-                        <p class="text-xs text-white opacity-90">Tomat</p>
-                    </div>
-                    <div class="flex-shrink-0 text-center">
-                        <a href="#" onclick="navigate('detect', {type: 'sayuran'})" class="block w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md mb-1"><span class="text-3xl">🥬</span></a>
-                        <p class="text-xs text-white opacity-90">Sayuran</p>
-                    </div>
-                </div>
-            </div>
+            <div class="bg-primary pt-2 pb-6 px-6 relative z-10">
+                <h2 class="text-white text-base mb-3 opacity-90">Pilih Tanaman Anda</h2>
+                <div class="flex space-x-4 overflow-x-auto pb-2">
+                    <div class="flex-shrink-0 text-center">
+                        <a href="#" onclick="navigate('detect', {type: 'padi'})" class="block w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md mb-1"><span class="text-3xl">🌾</span></a>
+                        <p class="text-xs text-white opacity-90">Padi</p>
+                    </div>
+                    <div class="flex-shrink-0 text-center">
+                        <a href="#" onclick="navigate('detect', {type: 'cabai'})" class="block w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md mb-1"><span class="text-3xl">🌶️</span></a>
+                        <p class="text-xs text-white opacity-90">Cabai</p>
+                    </div>
+                    <div class="flex-shrink-0 text-center">
+                        <a href="#" onclick="navigate('detect', {type: 'jagung'})" class="block w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md mb-1"><span class="text-3xl">🌽</span></a>
+                        <p class="text-xs text-white opacity-90">Jagung</p>
+                    </div>
+                    <div class="flex-shrink-0 text-center">
+                        <a href="#" onclick="navigate('detect', {type: 'tomat'})" class="block w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md mb-1"><span class="text-3xl">🍅</span></a>
+                        <p class="text-xs text-white opacity-90">Tomat</p>
+                    </div>
+                    <div class="flex-shrink-0 text-center">
+                        <a href="#" onclick="navigate('detect', {type: 'sayuran'})" class="block w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md mb-1"><span class="text-3xl">🥬</span></a>
+                        <p class="text-xs text-white opacity-90">Sayuran</p>
+                    </div>
+                </div>
+            </div>
 
-            <div class="relative -mt-4 bg-white px-6 py-8 rounded-t-3xl shadow-inner z-20">
-                
-                <h2 class="text-lg font-semibold text-textDark mb-4">Fitur AgroScan</h2>
-                <div class="grid grid-cols-2 gap-4 mb-8">
-                    
-                    <a href="#" onclick="navigate('detect')" class="block bg-accent rounded-xl p-4 shadow-sm hover:bg-opacity-80 transition">
-                        <span class="text-2xl mb-2 block">🔍</span>
-                        <h3 class="font-medium text-textDark">Deteksi Hama & Penyakit</h3>
-                        <p class="text-xs text-textMuted mt-1">Identifikasi masalah tanaman Anda.</p>
-                    </a>
-                    
-                    <a href="#" onclick="navigate('kalkulator-pupuk')" class="block bg-accent rounded-xl p-4 shadow-sm hover:bg-opacity-80 transition">
-                        <span class="text-2xl mb-2 block">🧪</span>
-                        <h3 class="font-medium text-textDark">Kalkulator Pupuk</h3>
-                        <p class="text-xs text-textMuted mt-1">Dapatkan dosis pupuk yang tepat.</p>
-                    </a>
-                    
-                    <a href="#" onclick="navigate('tips-budidaya')" class="block bg-accent rounded-xl p-4 shadow-sm hover:bg-opacity-80 transition">
-                        <span class="text-2xl mb-2 block">📚</span>
-                        <h3 class="font-medium text-textDark">Tips Budidaya</h3>
-                        <p class="text-xs text-textMuted mt-1">Panduan praktis untuk hasil optimal.</p>
-                    </a>
-                    
-                    <a href="#" onclick="navigate('info-padi')" class="block bg-accent rounded-xl p-4 shadow-sm hover:bg-opacity-80 transition">
-                        <span class="text-2xl mb-2 block">🦠</span>
-                        <h3 class="font-medium text-textDark">Katalog Hama Padi</h3>
-                        <p class="text-xs text-textMuted mt-1">Lihat detail hama padi, gejala, dan gambar.</p>
-                    </a>
-                </div>
+            <div class="relative -mt-4 bg-white px-6 py-8 rounded-t-3xl shadow-inner z-20">
+                
+                <h2 class="text-lg font-semibold text-textDark mb-4">Fitur AgroScan</h2>
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    
+                    <a href="#" onclick="navigate('detect')" class="block bg-accent rounded-xl p-4 shadow-sm hover:bg-opacity-80 transition">
+                        <span class="text-2xl mb-2 block">🔍</span>
+                        <h3 class="font-medium text-textDark">Deteksi Hama & Penyakit</h3>
+                        <p class="text-xs text-textMuted mt-1">Identifikasi masalah tanaman Anda.</p>
+                    </a>
+                    
+                    <a href="#" onclick="navigate('kalkulator-pupuk')" class="block bg-accent rounded-xl p-4 shadow-sm hover:bg-opacity-80 transition">
+                        <span class="text-2xl mb-2 block">🧪</span>
+                        <h3 class="font-medium text-textDark">Kalkulator Pupuk</h3>
+                        <p class="text-xs text-textMuted mt-1">Dapatkan dosis pupuk yang tepat.</p>
+                    </a>
+                    
+                    <a href="#" onclick="navigate('tips-budidaya')" class="block bg-accent rounded-xl p-4 shadow-sm hover:bg-opacity-80 transition">
+                        <span class="text-2xl mb-2 block">📚</span>
+                        <h3 class="font-medium text-textDark">Tips Budidaya</h3>
+                        <p class="text-xs text-textMuted mt-1">Panduan praktis untuk hasil optimal.</p>
+                    </a>
+                    
+                    <a href="#" onclick="navigate('info-padi')" class="block bg-accent rounded-xl p-4 shadow-sm hover:bg-opacity-80 transition">
+                        <span class="text-2xl mb-2 block">🦠</span>
+                        <h3 class="font-medium text-textDark">Katalog Hama Padi</h3>
+                        <p class="text-xs text-textMuted mt-1">Lihat detail hama padi, gejala, dan gambar.</p>
+                    </a>
+                </div>
 
-                <h2 class="text-lg font-semibold text-textDark mb-4">Sembuhkan Tanaman Anda</h2>
-                <div class="bg-accent rounded-xl p-6 shadow-sm">
-                    <div class="flex items-center justify-around text-center mb-6">
-                        <div class="flex flex-col items-center">
-                            <span class="text-3xl text-primary mb-1">📸</span>
-                            <p class="text-xs text-textMuted">Ambil gambar</p>
-                        </div>
-                        <span class="text-xl text-gray-400">→</span>
-                        <div class="flex flex-col items-center">
-                            <span class="text-3xl text-primary mb-1">🧠</span>
-                            <p class="text-xs text-textMuted">Lihat diagnosis</p>
-                        </div>
-                        <span class="text-xl text-gray-400">→</span>
-                        <div class="flex flex-col items-center">
-                            <span class="text-3xl text-primary mb-1">💊</span>
-                            <p class="text-xs text-textMuted">Rekomendasi obat</p>
-                        </div>
-                    </div>
-                    <a href="#" onclick="navigate('detect')" class="block w-full py-3 bg-primary text-white font-semibold rounded-lg shadow-md hover:bg-secondary transition duration-150 text-center">
-                        <span class="mr-2">📸</span> Ambil Gambar
-                    </a>
-                </div>
-            </div>
+                <h2 class="text-lg font-semibold text-textDark mb-4">Sembuhkan Tanaman Anda</h2>
+                <div class="bg-accent rounded-xl p-6 shadow-sm">
+                    <div class="flex items-center justify-around text-center mb-6">
+                        <div class="flex flex-col items-center">
+                            <span class="text-3xl text-primary mb-1">📸</span>
+                            <p class="text-xs text-textMuted">Ambil gambar</p>
+                        </div>
+                        <span class="text-xl text-gray-400">→</span>
+                        <div class="flex flex-col items-center">
+                            <span class="text-3xl text-primary mb-1">🧠</span>
+                            <p class="text-xs text-textMuted">Lihat diagnosis</p>
+                        </div>
+                        <span class="text-xl text-gray-400">→</span>
+                        <div class="flex flex-col items-center">
+                            <span class="text-3xl text-primary mb-1">💊</span>
+                            <p class="text-xs text-textMuted">Rekomendasi obat</p>
+                        </div>
+                    </div>
+                    <a href="#" onclick="navigate('detect')" class="block w-full py-3 bg-primary text-white font-semibold rounded-lg shadow-md hover:bg-secondary transition duration-150 text-center">
+                        <span class="mr-2">📸</span> Ambil Gambar
+                    </a>
+                </div>
+            </div>
 
-        </div> <div id="page-detect" data-page="detect" class="min-h-screen p-4 sm:p-8 hidden">
-            <div class="max-w-4xl mx-auto bg-white p-6 lg:p-8">
-                <header class="mb-6 border-b pb-4">
-                    <a href="#" onclick="navigate('index')" class="text-sm text-primary hover:underline mb-2 block">← Kembali ke Beranda Aplikasi</a>
-                    <h1 class="text-3xl font-bold text-gray-800">🔬 Deteksi Hama Canggih <span id="tanamanTitle" class="text-secondary font-light"></span></h1>
-                    <p class="text-sm text-gray-500 mt-1">Gunakan fitur simulasi untuk diagnosis berdasarkan Gejala.</p>
-                </header>
+        </div> <div id="page-detect" data-page="detect" class="min-h-screen p-4 sm:p-8 hidden">
+            <div class="max-w-4xl mx-auto bg-white p-6 lg:p-8">
+                <header class="mb-6 border-b pb-4">
+                    <a href="#" onclick="navigate('index')" class="text-sm text-primary hover:underline mb-2 block">← Kembali ke Beranda Aplikasi</a>
+                    <h1 class="text-3xl font-bold text-gray-800">🔬 Deteksi Hama Canggih <span id="tanamanTitle" class="text-secondary font-light"></span></h1>
+                    <p class="text-sm text-gray-500 mt-1">Gunakan fitur simulasi untuk diagnosis berdasarkan Gejala.</p>
+                </header>
 
-                <div id="healthComparisonSection" class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6 hidden">
-                    <h2 class="text-lg font-semibold text-gray-700 mb-3">Perbandingan Kesehatan Tanaman</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="text-center p-3 border border-green-300 rounded-lg bg-green-50">
-                            <h3 class="font-bold text-success mb-2">Sehat</h3>
-                            <div id="healthyPlantImage" class="w-full h-48 bg-gray-200 flex items-center justify-center rounded-md overflow-hidden text-sm text-gray-500">
-                                [Gambar Tanaman Sehat Akan Muncul Di Sini]
-                            </div>
-                            <p id="healthyPlantRating" class="mt-2 text-sm font-semibold text-success">Kesehatan: 95%</p>
-                        </div>
-                        <div class="text-center p-3 border border-red-300 rounded-lg bg-red-50">
-                            <h3 class="font-bold text-danger mb-2">Terserang Hama/Penyakit</h3>
-                            <div id="diseasedPlantImage" class="w-full h-48 bg-gray-200 flex items-center justify-center rounded-md overflow-hidden text-sm text-gray-500">
-                                [Gambar Tanaman Terserang Akan Muncul Di Sini]
-                            </div>
-                            <p id="diseasedPlantRating" class="mt-2 text-sm font-semibold text-danger">Kesehatan: 40%</p>
-                        </div>
-                    </div>
-                </div>
+                <div id="healthComparisonSection" class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6 hidden">
+                    <h2 class="text-lg font-semibold text-gray-700 mb-3">Perbandingan Kesehatan Tanaman</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="text-center p-3 border border-green-300 rounded-lg bg-green-50">
+                            <h3 class="font-bold text-success mb-2">Sehat</h3>
+                            <div id="healthyPlantImage" class="w-full h-48 bg-gray-200 flex items-center justify-center rounded-md overflow-hidden text-sm text-gray-500">
+                                [Gambar Tanaman Sehat Akan Muncul Di Sini]
+                            </div>
+                            <p id="healthyPlantRating" class="mt-2 text-sm font-semibold text-success">Kesehatan: 95%</p>
+                        </div>
+                        <div class="text-center p-3 border border-red-300 rounded-lg bg-red-50">
+                            <h3 class="font-bold text-danger mb-2">Terserang Hama/Penyakit</h3>
+                            <div id="diseasedPlantImage" class="w-full h-48 bg-gray-200 flex items-center justify-center rounded-md overflow-hidden text-sm text-gray-500">
+                                [Gambar Tanaman Terserang Akan Muncul Di Sini]
+                            </div>
+                            <p id="diseasedPlantRating" class="mt-2 text-sm font-semibold text-danger">Kesehatan: 40%</p>
+                        </div>
+                    </div>
+                </div>
 
-                <div class="lg:flex lg:space-x-8">
-                    <div class="w-full lg:w-1/2">
-                        <h2 class="text-lg font-semibold text-gray-700 mb-3">1) Unggah Gambar & Pindai</h2>
-                        <label for="fileInput" class="block text-sm font-medium text-gray-700 mb-2">Pilih foto daun, serangga, atau area yang terinfeksi</label>
-                        <input id="fileInput" type="file" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer">
+                <div class="lg:flex lg:space-x-8">
+                    <div class="w-full lg:w-1/2">
+                        <h2 class="text-lg font-semibold text-gray-700 mb-3">1) Unggah Gambar & Pindai</h2>
+                        <label for="fileInput" class="block text-sm font-medium text-gray-700 mb-2">Pilih foto daun, serangga, atau area yang terinfeksi</label>
+                        <input id="fileInput" type="file" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer">
 
-                        <div class="mt-4 border border-gray-200 rounded-lg overflow-hidden flex justify-center items-center bg-gray-100 min-h-[200px]">
-                            <img id="preview" alt="Preview gambar akan muncul di sini" class="max-w-full max-h-[300px] object-contain" style="display:none;" />
-                        </div>
+                        <div class="mt-4 border border-gray-200 rounded-lg overflow-hidden flex justify-center items-center bg-gray-100 min-h-[200px]">
+                            <img id="preview" alt="Preview gambar akan muncul di sini" class="max-w-full max-h-[300px] object-contain" style="display:none;" />
+                        </div>
 
-                        <div class="flex space-x-4 mt-6">
-                            <button id="btnMock" class="flex-1 py-3 px-4 bg-primary text-white font-bold rounded-lg shadow-md hover:bg-secondary transition duration-150 disabled:opacity-50">
-                                Scan (Simulasi Canggih)
-                            </button>
-                        </div>
+                        <div class="flex space-x-4 mt-6">
+                            <button id="btnMock" class="flex-1 py-3 px-4 bg-primary text-white font-bold rounded-lg shadow-md hover:bg-secondary transition duration-150 disabled:opacity-50">
+                                Scan (Simulasi Canggih)
+                            </button>
+                        </div>
 
-                        <div id="resultArea" class="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg hidden">
-                            <div class="text-green-700 font-semibold mb-2" id="status">Menunggu input...</div>
-                            <ul id="predictions" class="list-disc list-inside text-sm text-green-600"></ul>
-                            <div id="remedyDisplay" class="mt-4 border-t border-green-200 pt-3"></div>
-                        </div>
-                    </div>
+                        <div id="resultArea" class="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg hidden">
+                            <div class="text-green-700 font-semibold mb-2" id="status">Menunggu input...</div>
+                            <ul id="predictions" class="list-disc list-inside text-sm text-green-600"></ul>
+                            <div id="remedyDisplay" class="mt-4 border-t border-green-200 pt-3"></div>
+                        </div>
+                    </div>
 
-                    <div class="w-full lg:w-1/2 mt-8 lg:mt-0">
-                        <h2 class="text-lg font-semibold text-gray-700 mb-3">2) Fitur Canggih</h2>
-                        <div class="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm text-gray-700">
-                            <p class="font-bold text-primary">Simulasi Canggih</p>
-                            <p>Fitur ini mensimulasikan diagnosis ganda (misalnya, hama utama **dan** masalah nutrisi) yang lebih realistis dan terperinci.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> <div id="page-info-padi" data-page="info-padi" class="min-h-screen p-4 sm:p-8 hidden">
-            <div class="max-w-4xl mx-auto bg-white p-6 lg:p-8">
-                <header class="mb-6 border-b pb-4">
-                    <a href="#" onclick="navigate('index')" class="text-sm text-primary hover:underline mb-2 block">← Kembali ke Beranda Aplikasi</a>
-                    <h1 class="text-3xl font-bold text-gray-800">📖 Katalog Hama & Penyakit Padi</h1>
-                    <p class="text-sm text-gray-500 mt-1">Pelajari lebih dalam ciri-ciri, gejala, dan pengendalian hama padi utama.</p>
-                </header>
+                    <div class="w-full lg:w-1/2 mt-8 lg:mt-0">
+                        <h2 class="text-lg font-semibold text-gray-700 mb-3">2) Fitur Canggih</h2>
+                        <div class="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm text-gray-700">
+                            <p class="font-bold text-primary">Simulasi Canggih</p>
+                            <p>Fitur ini mensimulasikan diagnosis ganda (misalnya, hama utama **dan** masalah nutrisi) yang lebih realistis dan terperinci.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <div id="page-info-padi" data-page="info-padi" class="min-h-screen p-4 sm:p-8 hidden">
+            <div class="max-w-4xl mx-auto bg-white p-6 lg:p-8">
+                <header class="mb-6 border-b pb-4">
+                    <a href="#" onclick="navigate('index')" class="text-sm text-primary hover:underline mb-2 block">← Kembali ke Beranda Aplikasi</a>
+                    <h1 class="text-3xl font-bold text-gray-800">📖 Katalog Hama & Penyakit Padi</h1>
+                    <p class="text-sm text-gray-500 mt-1">Pelajari lebih dalam ciri-ciri, gejala, dan pengendalian hama padi utama.</p>
+                </header>
 
-                <div class="space-y-8">
-                    
-                    <div id="sundep" class="p-6 bg-accent rounded-lg border-l-4 border-danger shadow-md">
-                        <h2 class="text-2xl font-bold text-danger mb-3">🐛 Penggerek Batang Padi (Sundep/Beluk)</h2>
-                        <p class="text-sm text-gray-700 mb-4">Penggerek Batang (larva ngengat) masuk ke dalam batang padi. Dikenal sebagai **Sundep** pada fase muda dan **Beluk** pada fase berbuah.</p>
-                        <div class="md:flex md:space-x-4">
-                            <div class="md:w-1/2">
-                                <h3 class="font-semibold text-gray-800 mt-2">Gejala Utama:</h3>
-                                <ul class="list-disc list-inside text-sm text-gray-600">
-                                    <li>Pucuk daun mati dan mengering (*Sundep*).</li>
-                                    <li>Malai putih, hampa, dan tegak (*Beluk*).</li>
-                                </ul>
-                            </div>
-                            <div class="md:w-1/2 mt-4 md:mt-0 flex justify-center items-center text-sm text-gray-500">
-                                <img src="https://via.placeholder.com/200x150?text=Gambar+Sundep" alt="Gambar Sundep" class="rounded-md w-full h-auto object-cover">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div id="wereng" class="p-6 bg-accent rounded-lg border-l-4 border-danger shadow-md">
-                        <h2 class="text-2xl font-bold text-danger mb-3">🪲 Wereng Batang Coklat (WBC)</h2>
-                        <p class="text-sm text-gray-700 mb-4">Wereng menghisap cairan batang padi, seringkali menyebabkan *hopperburn* (padi kering seperti terbakar).</p>
-                        <div class="md:flex md:space-x-4">
-                            <div class="md:w-1/2">
-                                <h3 class="font-semibold text-gray-800 mt-2">Gejala Utama:</h3>
-                                <ul class="list-disc list-inside text-sm text-gray-600">
-                                    <li>Tanaman mengering dan mati secara melingkar (*hopperburn*).</li>
-                                    <li>Ditemukan serangga kecil berwarna coklat di pangkal batang.</li>
-                                </ul>
-                            </div>
-                            <div class="md:w-1/2 mt-4 md:mt-0 flex justify-center items-center text-sm text-gray-500">
-                                <img src="https://via.placeholder.com/200x150?text=Gambar+Wereng" alt="Gambar Wereng Batang Coklat" class="rounded-md w-full h-auto object-cover">
-                            </div>
-                        </div>
-                    </div>
+                <div class="space-y-8">
+                    
+                    <div id="sundep" class="p-6 bg-accent rounded-lg border-l-4 border-danger shadow-md">
+                        <h2 class="text-2xl font-bold text-danger mb-3">🐛 Penggerek Batang Padi (Sundep/Beluk)</h2>
+                        <p class="text-sm text-gray-700 mb-4">Penggerek Batang (larva ngengat) masuk ke dalam batang padi. Dikenal sebagai **Sundep** pada fase muda dan **Beluk** pada fase berbuah.</p>
+                        <div class="md:flex md:space-x-4">
+                            <div class="md:w-1/2">
+                                <h3 class="font-semibold text-gray-800 mt-2">Gejala Utama:</h3>
+                                <ul class="list-disc list-inside text-sm text-gray-600">
+                                    <li>Pucuk daun mati dan mengering (*Sundep*).</li>
+                                    <li>Malai putih, hampa, dan tegak (*Beluk*).</li>
+                                </ul>
+                            </div>
+                            <div class="md:w-1/2 mt-4 md:mt-0 flex justify-center items-center text-sm text-gray-500">
+                                <img src="https://via.placeholder.com/200x150?text=Gambar+Sundep" alt="Gambar Sundep" class="rounded-md w-full h-auto object-cover">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="wereng" class="p-6 bg-accent rounded-lg border-l-4 border-danger shadow-md">
+                        <h2 class="text-2xl font-bold text-danger mb-3">🪲 Wereng Batang Coklat (WBC)</h2>
+                        <p class="text-sm text-gray-700 mb-4">Wereng menghisap cairan batang padi, seringkali menyebabkan *hopperburn* (padi kering seperti terbakar).</p>
+                        <div class="md:flex md:space-x-4">
+                            <div class="md:w-1/2">
+                                <h3 class="font-semibold text-gray-800 mt-2">Gejala Utama:</h3>
+                                <ul class="list-disc list-inside text-sm text-gray-600">
+                                    <li>Tanaman mengering dan mati secara melingkar (*hopperburn*).</li>
+                                    <li>Ditemukan serangga kecil berwarna coklat di pangkal batang.</li>
+                                </ul>
+                            </div>
+                            <div class="md:w-1/2 mt-4 md:mt-0 flex justify-center items-center text-sm text-gray-500">
+                                <img src="https://via.placeholder.com/200x150?text=Gambar+Wereng" alt="Gambar Wereng Batang Coklat" class="rounded-md w-full h-auto object-cover">
+                            </div>
+                        </div>
+                    </div>
 
-                    <div id="tungro" class="p-6 bg-accent rounded-lg border-l-4 border-danger shadow-md">
-                        <h2 class="text-2xl font-bold text-danger mb-3">🦠 Virus Tungro</h2>
-                        <p class="text-sm text-gray-700 mb-4">Penyakit virus yang ditularkan oleh Wereng Hijau. Dapat menyebabkan kerugian hasil panen yang sangat besar.</p>
-                        <div class="md:flex md:space-x-4">
-                            <div class="md:w-1/2">
-                                <h3 class="font-semibold text-gray-800 mt-2">Gejala Utama:</h3>
-                                <ul class="list-disc list-inside text-sm text-gray-600">
-                                    <li>Tanaman menjadi kerdil dan daunnya menguning sampai oranye.</li>
-                                    <li>Daun termuda seringkali memiliki bercak berkarat.</li>
-                                </ul>
-                            </div>
-                            <div class="md:w-1/2 mt-4 md:mt-0 flex justify-center items-center text-sm text-gray-500">
-                                <img src="https://via.placeholder.com/200x150?text=Gambar+Tungro" alt="Gambar Virus Tungro" class="rounded-md w-full h-auto object-cover">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> <div id="page-kalkulator-pupuk" data-page="kalkulator-pupuk" class="min-h-screen p-4 sm:p-8 hidden">
-             <div class="max-w-4xl mx-auto bg-white p-6 lg:p-8">
-                <header class="mb-6 border-b pb-4">
-                    <a href="#" onclick="navigate('index')" class="text-sm text-primary hover:underline mb-2 block">← Kembali ke Beranda Aplikasi</a>
-                    <h1 class="text-3xl font-bold text-gray-800">🧪 Kalkulator Pupuk (Simulasi)</h1>
-                    <p class="text-sm text-gray-500 mt-1">Hitung simulasi kebutuhan pupuk berdasarkan luas lahan.</p>
-                </header>
+                    <div id="tungro" class="p-6 bg-accent rounded-lg border-l-4 border-danger shadow-md">
+                        <h2 class="text-2xl font-bold text-danger mb-3">🦠 Virus Tungro</h2>
+                        <p class="text-sm text-gray-700 mb-4">Penyakit virus yang ditularkan oleh Wereng Hijau. Dapat menyebabkan kerugian hasil panen yang sangat besar.</p>
+                        <div class="md:flex md:space-x-4">
+                            <div class="md:w-1/2">
+                                <h3 class="font-semibold text-gray-800 mt-2">Gejala Utama:</h3>
+                                <ul class="list-disc list-inside text-sm text-gray-600">
+                                    <li>Tanaman menjadi kerdil dan daunnya menguning sampai oranye.</li>
+                                    <li>Daun termuda seringkali memiliki bercak berkarat.</li>
+                                </ul>
+                            </div>
+                            <div class="md:w-1/2 mt-4 md:mt-0 flex justify-center items-center text-sm text-gray-500">
+                                <img src="https://via.placeholder.com/200x150?text=Gambar+Tungro" alt="Gambar Virus Tungro" class="rounded-md w-full h-auto object-cover">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <div id="page-kalkulator-pupuk" data-page="kalkulator-pupuk" class="min-h-screen p-4 sm:p-8 hidden">
+             <div class="max-w-4xl mx-auto bg-white p-6 lg:p-8">
+                <header class="mb-6 border-b pb-4">
+                    <a href="#" onclick="navigate('index')" class="text-sm text-primary hover:underline mb-2 block">← Kembali ke Beranda Aplikasi</a>
+                    <h1 class="text-3xl font-bold text-gray-800">🧪 Kalkulator Pupuk (Simulasi)</h1>
+                    <p class="text-sm text-gray-500 mt-1">Hitung simulasi kebutuhan pupuk berdasarkan luas lahan.</p>
+                </header>
 
-                <div class="space-y-6">
-                    <div class="grid md:grid-cols-2 gap-4">
-                        <div class="col-span-1">
-                            <label for="luasLahan" class="block text-sm font-medium text-gray-700">Luas Lahan (dalam Hektar)</label>
-                            <input type="number" id="luasLahan" value="1.0" min="0.1" step="0.1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary p-2 border">
-                        </div>
-                        
-                        <div class="col-span-1">
-                            <label for="jenisTanaman" class="block text-sm font-medium text-gray-700">Jenis Tanaman</label>
-                            <select id="jenisTanaman" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary p-2 border">
-                                <option value="padi">Padi Sawah</option>
-                                <option value="jagung">Jagung</option>
-                                <option value="cabai">Cabai</option>
-                            </select>
-                        </div>
-                    </div>
-                        
-                    <button id="calculateBtn" class="w-full py-3 px-4 bg-primary text-white font-bold rounded-lg shadow-md hover:bg-secondary transition duration-150">
-                        Hitung Kebutuhan Pupuk
-                    </button>
+                <div class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="col-span-1">
+                            <label for="luasLahan" class="block text-sm font-medium text-gray-700">Luas Lahan (dalam Hektar)</label>
+                            <input type="number" id="luasLahan" value="1.0" min="0.1" step="0.1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary p-2 border">
+                        </div>
+                        
+                        <div class="col-span-1">
+                            <label for="jenisTanaman" class="block text-sm font-medium text-gray-700">Jenis Tanaman</label>
+                            <select id="jenisTanaman" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary p-2 border">
+                                <option value="padi">Padi Sawah</option>
+                                <option value="jagung">Jagung</option>
+                                <option value="cabai">Cabai</option>
+                            </select>
+                        </div>
+                    </div>
+                        
+                    <button id="calculateBtn" class="w-full py-3 px-4 bg-primary text-white font-bold rounded-lg shadow-md hover:bg-secondary transition duration-150">
+                        Hitung Kebutuhan Pupuk
+                    </button>
 
-                    <div id="resultPupuk" class="mt-6 p-6 bg-accent rounded-lg border border-primary/20 hidden">
-                        <h3 class="text-xl font-bold text-secondary mb-3">Rekomendasi Dosis (Per Hektar)</h3>
-                        <div id="dosisDetails" class="space-y-2">
-                            </div>
-                    </div>
-                </div>
-            </div>
-        </div> <div id="page-tips-budidaya" data-page="tips-budidaya" class="min-h-screen p-4 sm:p-8 hidden">
-            <div class="max-w-4xl mx-auto bg-white p-6 lg:p-8">
-                <header class="mb-6 border-b pb-4">
-                    <a href="#" onclick="navigate('index')" class="text-sm text-primary hover:underline mb-2 block">← Kembali ke Beranda Aplikasi</a>
-                    <h1 class="text-3xl font-bold text-gray-800">📚 Tips Budidaya Modern</h1>
-                    <p class="text-sm text-gray-500 mt-1">Panduan praktis untuk meningkatkan kualitas dan hasil panen.</p>
-                </header>
+                    <div id="resultPupuk" class="mt-6 p-6 bg-accent rounded-lg border border-primary/20 hidden">
+                        <h3 class="text-xl font-bold text-secondary mb-3">Rekomendasi Dosis (Per Hektar)</h3>
+                        <div id="dosisDetails" class="space-y-2">
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div> <div id="page-tips-budidaya" data-page="tips-budidaya" class="min-h-screen p-4 sm:p-8 hidden">
+            <div class="max-w-4xl mx-auto bg-white p-6 lg:p-8">
+                <header class="mb-6 border-b pb-4">
+                    <a href="#" onclick="navigate('index')" class="text-sm text-primary hover:underline mb-2 block">← Kembali ke Beranda Aplikasi</a>
+                    <h1 class="text-3xl font-bold text-gray-800">📚 Tips Budidaya Modern</h1>
+                    <p class="text-sm text-gray-500 mt-1">Panduan praktis untuk meningkatkan kualitas dan hasil panen.</p>
+                </header>
 
-                <div class="space-y-8">
-                    
-                    <div class="p-6 bg-accent rounded-lg border-l-4 border-primary shadow-md">
-                        <h2 class="text-2xl font-bold text-secondary mb-3">Tips Khusus: Tanaman Padi 🌾</h2>
-                        <ul class="list-disc list-inside text-gray-700 space-y-3">
-                            <li>**Teknik Pengairan Berselang (Intermittent Irrigation):** Keringkan sawah selama 3-5 hari sebelum pemupukan kedua untuk mengendalikan Wereng dan memperkuat perakaran.</li>
-                            <li>**Pemupukan Berimbang:** Jangan hanya mengandalkan Urea (N). Pastikan dosis Fosfor (P) dan Kalium (K) terpenuhi sesuai umur tanaman untuk mencegah penyakit rebah dan meningkatkan kualitas gabah.</li>
-                            <li>**Jarak Tanam Jajar Legowo:** Terapkan Jajar Legowo untuk sirkulasi udara yang lebih baik, mengurangi kelembaban, dan memudahkan aplikasi pupuk.</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="p-6 bg-gray-50 rounded-lg border-l-4 border-gray-400 shadow-md">
-                        <h2 class="text-2xl font-bold text-gray-700 mb-3">Tips Umum: Tanaman Kebun 🌶️🍅</h2>
-                        <ul class="list-disc list-inside text-gray-600 space-y-3">
-                            <li>**Rotasi Tanaman:** Jangan menanam tanaman sejenis terus-menerus di lahan yang sama untuk memutus siklus hidup hama dan penyakit tular tanah.</li>
-                            <li>**Drainase:** Pastikan media tanam memiliki drainase yang baik. Air yang menggenang adalah penyebab utama penyakit busuk akar dan jamur.</li>
-                            <li>**Aplikasi Pestisida Biologis:** Prioritaskan penggunaan pestisida hayati (misalnya, *Trichoderma* untuk jamur tanah, *Bacillus thuringiensis* untuk ulat) sebagai pencegahan.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div> <div id="page-profile" data-page="profile" class="min-h-screen p-4 sm:p-8 hidden">
-             <div class="max-w-4xl mx-auto bg-white p-6 lg:p-8">
-                <header class="mb-6 border-b pb-4">
-                    <a href="#" onclick="navigate('index')" class="text-sm text-primary hover:underline mb-2 block">← Kembali ke Beranda Aplikasi</a>
-                    <h1 class="text-3xl font-bold text-gray-800">👤 Akun Pengguna</h1>
-                </header>
+                <div class="space-y-8">
+                    
+                    <div class="p-6 bg-accent rounded-lg border-l-4 border-primary shadow-md">
+                        <h2 class="text-2xl font-bold text-secondary mb-3">Tips Khusus: Tanaman Padi 🌾</h2>
+                        <ul class="list-disc list-inside text-gray-700 space-y-3">
+                            <li>**Teknik Pengairan Berselang (Intermittent Irrigation):** Keringkan sawah selama 3-5 hari sebelum pemupukan kedua untuk mengendalikan Wereng dan memperkuat perakaran.</li>
+                            <li>**Pemupukan Berimbang:** Jangan hanya mengandalkan Urea (N). Pastikan dosis Fosfor (P) dan Kalium (K) terpenuhi sesuai umur tanaman untuk mencegah penyakit rebah dan meningkatkan kualitas gabah.</li>
+                            <li>**Jarak Tanam Jajar Legowo:** Terapkan Jajar Legowo untuk sirkulasi udara yang lebih baik, mengurangi kelembaban, dan memudahkan aplikasi pupuk.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="p-6 bg-gray-50 rounded-lg border-l-4 border-gray-400 shadow-md">
+                        <h2 class="text-2xl font-bold text-gray-700 mb-3">Tips Umum: Tanaman Kebun 🌶️🍅</h2>
+                        <ul class="list-disc list-inside text-gray-600 space-y-3">
+                            <li>**Rotasi Tanaman:** Jangan menanam tanaman sejenis terus-menerus di lahan yang sama untuk memutus siklus hidup hama dan penyakit tular tanah.</li>
+                            <li>**Drainase:** Pastikan media tanam memiliki drainase yang baik. Air yang menggenang adalah penyebab utama penyakit busuk akar dan jamur.</li>
+                            <li>**Aplikasi Pestisida Biologis:** Prioritaskan penggunaan pestisida hayati (misalnya, *Trichoderma* untuk jamur tanah, *Bacillus thuringiensis* untuk ulat) sebagai pencegahan.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div> <div id="page-profile" data-page="profile" class="min-h-screen p-4 sm:p-8 hidden">
+             <div class="max-w-4xl mx-auto bg-white p-6 lg:p-8">
+                <header class="mb-6 border-b pb-4">
+                    <a href="#" onclick="navigate('index')" class="text-sm text-primary hover:underline mb-2 block">← Kembali ke Beranda Aplikasi</a>
+                    <h1 class="text-3xl font-bold text-gray-800">👤 Akun Pengguna</h1>
+                </header>
 
-                <div id="login-view">
-                    <h2 id="authTitle" class="text-2xl font-bold text-textDark mb-6 text-center">Masuk ke Akun AgroScan</h2>
-                    
-                    <form onsubmit="event.preventDefault(); simulateLogin();" class="space-y-4 max-w-sm mx-auto">
-                        <div id="registerFields" class="space-y-4 hidden">
-                             <div>
-                                <label for="regName" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
-                                <input type="text" id="regName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary p-2 border">
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                            <input type="email" id="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary p-2 border" required>
-                        </div>
-                        
-                        <div>
-                            <label for="password" class="block text-sm font-medium text-gray-700">Kata Sandi</label>
-                            <input type="password" id="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary p-2 border" required>
-                        </div>
-                        
-                        <button id="authBtn" type="submit" class="w-full py-3 bg-primary text-white font-semibold rounded-lg shadow-md hover:bg-secondary transition duration-150">
-                            Masuk
-                        </button>
-                    </form>
-
-                    <p class="text-center text-sm text-textMuted mt-4">
-                        Belum punya akun? <a href="#" onclick="toggleAuthView('register')" class="text-primary font-semibold hover:underline">Daftar Sekarang</a>
-                    </p>
-                </div>
-                
-                <div id="profile-view" class="hidden">
-                     <div class="text-center mb-8">
-                        <div class="mx-auto w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center text-4xl text-primary mb-3">
-                            🧑‍🌾
-                        </div>
-                        <h2 class="text-xl font-bold text-textDark">Petani Teladan 123</h2>
-                        <p class="text-sm text-textMuted">petani.teladan@agroscan.com</p>
-                    </div>
-
-                    <div class="space-y-4">
-                        <div class="bg-accent p-4 rounded-lg shadow-sm border border-gray-200">
-                            <h3 class="font-semibold text-textDark mb-2">Informasi Akun</h3>
-                            <ul class="text-sm text-gray-700 space-y-2">
-                                <li class="flex justify-between border-b pb-1"><span>Nama:</span> <span class="font-medium">Joko Tani</span></li>
-                                <li class="flex justify-between border-b pb-1"><span>Lokasi Lahan Utama:</span> <span class="font-medium">Cilacap, Jawa Tengah</span></li>
-                                <li class="flex justify-between pb-1"><span>Luas Lahan Total:</span> <span class="font-medium">2.5 Hektar</span></li>
-                            </ul>
-                        </div>
-
-                        <a href="#" class="block bg-accent p-4 rounded-lg shadow-sm border border-primary/20 flex items-center justify-between hover:bg-primary/10 transition">
-                            <span class="font-medium text-textDark">Riwayat Pemindaian</span>
-                            <span class="text-primary font-bold">Lihat →</span>
-                        </a>
-                        
-                        <a href="#" class="block bg-accent p-4 rounded-lg shadow-sm border border-gray-200 flex items-center justify-between hover:bg-gray-100 transition">
-                            <span class="font-medium text-textDark">Pengaturan Aplikasi</span>
-                            <span class="text-gray-500">→</span>
-                        </a>
-                        
-                        <button onclick="simulateLogout()" class="w-full py-3 mt-6 bg-danger text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition duration-150">
-                            Keluar (Logout)
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div> </div> <script>
-    // Global variable to simulate login state
-    let isAuthenticated = false;
-
-    // =================================================================================
-    // LOGIKA NAVIGASI (MULTI-PAGE SIMULATION)
-    // =================================================================================
-
-    function navigate(pageId, params = {}) {
-        const pages = document.querySelectorAll('[data-page]');
-        pages.forEach(page => {
-            page.classList.add('hidden');
-        });
-        
-        const targetPage = document.getElementById('page-' + pageId);
-        if (targetPage) {
-            targetPage.classList.remove('hidden');
-            
-            if (pageId === 'detect') {
-                initializeDetectPage(params);
-            } else if (pageId === 'profile') {
-                // LOGIKA PENTING: Menentukan apakah menampilkan Login atau Profil
-                if (isAuthenticated) {
-                    document.getElementById('login-view').classList.add('hidden');
-                    document.getElementById('profile-view').classList.remove('hidden');
-                } else {
-                    document.getElementById('login-view').classList.remove('hidden');
-                    document.getElementById('profile-view').classList.add('hidden');
-                    toggleAuthView('login'); // Pastikan default adalah tampilan Login
-                }
-            }
-        }
-        
-        // Atur agar konten yang tampil (max-w-md/lg) sesuai dengan halaman tujuan
-        const appContainer = document.getElementById('app-container');
-        if (pageId === 'index') {
-            appContainer.classList.remove('md:max-w-4xl');
-            appContainer.classList.add('md:max-w-lg');
-        } else {
-            appContainer.classList.remove('md:max-w-lg');
-            appContainer.classList.add('md:max-w-4xl');
-        }
-        
-        window.scrollTo(0, 0);
-    }
-
-    // Panggil navigate('index') saat halaman dimuat
-    document.addEventListener('DOMContentLoaded', () => {
-        navigate('index');
-    });
-
-    // =================================================================================
-    // LOGIKA SIMULASI AKUN
-    // =================================================================================
-
-    function toggleAuthView(mode) {
-        const authTitle = document.getElementById('authTitle');
-        const authBtn = document.getElementById('authBtn');
-        const registerFields = document.getElementById('registerFields');
-        const loginViewText = document.querySelector('#login-view p');
-        
-        if (mode === 'register') {
-            authTitle.textContent = 'Buat Akun Baru (Daftar)';
-            authBtn.textContent = 'Daftar';
-            registerFields.classList.remove('hidden');
-            loginViewText.innerHTML = `Sudah punya akun? <a href="#" onclick="toggleAuthView('login')" class="text-primary font-semibold hover:underline">Masuk</a>`;
-        } else {
-            authTitle.textContent = 'Masuk ke Akun AgroScan';
-            authBtn.textContent = 'Masuk';
-            registerFields.classList.add('hidden');
-            loginViewText.innerHTML = `Belum punya akun? <a href="#" onclick="toggleAuthView('register')" class="text-primary font-semibold hover:underline">Daftar Sekarang</a>`;
-        }
-    }
-
-    function simulateLogin() {
-        const authBtn = document.getElementById('authBtn');
-        const isRegister = authBtn.textContent === 'Daftar';
-        
-        // Simulasi validasi dasar
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-
-        if (!email || !password || (isRegister && !document.getElementById('regName').value)) {
-            alert('Silakan isi semua kolom yang diperlukan.');
-            return;
-        }
-
-        // Tampilkan loading/status
-        const originalText = authBtn.textContent;
-        authBtn.textContent = isRegister ? 'Memproses Pendaftaran...' : 'Memverifikasi...';
-        authBtn.disabled = true;
-
-        setTimeout(() => {
-            // Simulasi sukses login/register
-            isAuthenticated = true;
-            alert(isRegister ? 'Pendaftaran berhasil! Selamat datang.' : 'Login berhasil!');
-            
-            // Pindah ke tampilan profil
-            document.getElementById('login-view').classList.add('hidden');
-            document.getElementById('profile-view').classList.remove('hidden');
-            
-            // Reset tombol
-            authBtn.textContent = originalText;
-            authBtn.disabled = false;
-        }, 1500);
-    }
-
-    function simulateLogout() {
-        isAuthenticated = false;
-        alert('Anda telah keluar dari akun.');
-        navigate('profile'); // Kembali ke halaman profile, yang akan memicu pengecekan login
-    }
-
-    // =================================================================================
-    // LOGIKA DETEKSI HAMA (HANYA SIMULASI)
-    // =================================================================================
-    
-    // Data Hama dan Masalah
-    const PADI_PROBLEMS = [
-        { name: 'Penggerek Batang Padi (Sundep/Beluk)', remedy: 'Keringkan sawah sejenak dan gunakan insektisida sistemik Fipronil.', type: 'danger', priority: 1, link: '#sundep' },
-        { name: 'Wereng Batang Coklat (WBC)', remedy: 'Gunakan varietas tahan wereng. Aplikasi insektisida sistemik BPMC pada populasi tinggi.', type: 'danger', priority: 1, link: '#wereng' },
-        { name: 'Penyakit Virus Tungro', remedy: 'Cabut tanaman terinfeksi parah. Kontrol vektor Wereng Hijau dengan insektisida spesifik.', type: 'danger', priority: 1, link: '#tungro' },
-        { name: 'Kekurangan Nitrogen (Daun Kuning)', remedy: 'Segera berikan pupuk Urea atau ZA.', type: 'warning', priority: 2, link: '' },
-        { name: 'Kekurangan Kalium (Ujung Daun Kering)', remedy: 'Tambahkan pupuk KCL.', type: 'warning', priority: 2, link: '' }
-    ];
-
-    const UMUM_PROBLEMS = [ 
-        { name: 'Kutu Kebul/Aphid (Daun Keriting)', remedy: 'Gunakan insektisida Imidakloprid. Alternatif: semprotan air sabun.', type: 'danger', priority: 1, link: '' },
-        { name: 'Penyakit Jamur (Bercak Daun)', remedy: 'Aplikasi fungisida Mankozeb atau Azoksistrobin. Kurangi kelembaban.', type: 'danger', priority: 1, link: '' },
-        { name: 'Serangan Ulat Defoliasi', remedy: 'Gunakan insektisida biologis Bacillus thuringiensis (Bt).', type: 'danger', priority: 1, link: '' },
-        { name: 'Kekurangan Fosfor (Daun Ungu/Merah)', remedy: 'Berikan pupuk SP-36 atau NPK yang mengandung Fosfor tinggi.', type: 'warning', priority: 2, link: '' },
-        { name: 'Kekurangan Kalsium (Bunga Busuk)', remedy: 'Tambahkan pupuk Kalsium Boron.', type: 'warning', priority: 2, link: '' }
-    ];
-
-    // Data Gambar Perbandingan (menggunakan placeholder URL yang bekerja)
-    const PLANT_IMAGES = {
-        padi: {
-            healthy: 'https://via.placeholder.com/200x150?text=Padi+Sehat', 
-            diseased: 'https://via.placeholder.com/200x150?text=Padi+Terserang' 
-        },
-        cabai: {
-            healthy: 'https://via.placeholder.com/200x150?text=Cabai+Sehat', 
-            diseased: 'https://via.placeholder.com/200x150?text=Cabai+Terserang'
-        },
-        jagung: {
-            healthy: 'https://via.placeholder.com/200x150?text=Jagung+Sehat', 
-            diseased: 'https://via.placeholder.com/200x150?text=Jagung+Terserang'
-        },
-        tomat: {
-            healthy: 'https://via.placeholder.com/200x150?text=Tomat+Sehat', 
-            diseased: 'https://via.placeholder.com/200x150?text=Tomat+Terserang'
-        },
-        sayuran: {
-            healthy: 'https://via.placeholder.com/200x150?text=Sayuran+Sehat', 
-            diseased: 'https://via.placeholder.com/200x150?text=Sayuran+Terserang'
-        }
-    };
-
-    let selectedType = 'umum';
-
-    function initializeDetectPage(params) {
-        selectedType = params.type || 'umum';
-        const tanamanTitle = document.getElementById('tanamanTitle');
-        const preview = document.getElementById('preview');
-        const resultArea = document.getElementById('resultArea');
-        const fileInput = document.getElementById('fileInput');
-        const healthComparisonSection = document.getElementById('healthComparisonSection');
-        const healthyPlantImageDiv = document.getElementById('healthyPlantImage');
-        const diseasedPlantImageDiv = document.getElementById('diseasedPlantImage');
-        const healthyPlantRating = document.getElementById('healthyPlantRating');
-        const diseasedPlantRating = document.getElementById('diseasedPlantRating');
+                                                                <div id="verification-view" class="max-w-md mx-auto py-12 px-6 bg-accent rounded-xl border border-primary/20 hidden">
+                    <div class="text-center">
+                        <span class="text-6xl mb-4 block">📧</span>
+                        <h2 class="text-2xl font-bold text-textDark mb-3">Verifikasi Email Anda</h2>
+                        <p class="text-gray-600 mb-6">Untuk keamanan dan fitur lengkap, silakan verifikasi alamat email Anda terlebih dahulu.</p>
+                        <button onclick="simulateVerification()" class="w-full py-3 bg-primary text-white font-semibold rounded-lg shadow-md hover:bg-secondary transition duration-150">
+                            Kirim Tautan Verifikasi
+                        </button>
+                        <p class="text-xs text-textMuted mt-4">Anda akan diarahkan ke halaman login setelah verifikasi berhasil (simulasi).</p>
+                    </div>
+                </div>
 
 
-        // Reset tampilan
-        if (tanamanTitle) {
-            tanamanTitle.textContent = selectedType === 'padi' ? '— Tanaman Padi' : selectedType.charAt(0).toUpperCase() + selectedType.slice(1);
-        }
-        if (preview) {
-            preview.style.display = 'none';
-            preview.src = '';
-        }
-        if (resultArea) {
-            resultArea.classList.add('hidden');
-        }
-        if (fileInput) {
-             fileInput.value = null;
-        }
+                                                                <div id="login-view" class="hidden">
+                    <h2 id="authTitle" class="text-2xl font-bold text-textDark mb-6 text-center">Masuk ke Akun AgroScan</h2>
+                    
+                    <form onsubmit="event.preventDefault(); simulateLogin();" class="space-y-4 max-w-sm mx-auto">
+                        <div id="registerFields" class="space-y-4 hidden">
+                             <div>
+                                <label for="regName" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
+                                <input type="text" id="regName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary p-2 border">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" id="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary p-2 border" required>
+                        </div>
+                        
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-700">Kata Sandi</label>
+                            <input type="password" id="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary p-2 border" required>
+                        </div>
+                        
+                        <button id="authBtn" type="submit" class="w-full py-3 bg-primary text-white font-semibold rounded-lg shadow-md hover:bg-secondary transition duration-150">
+                            Masuk
+                        </button>
+                    </form>
 
-        // Tampilkan Bagian Perbandingan Kesehatan Tanaman
-        if (healthComparisonSection) {
-            const plantData = PLANT_IMAGES[selectedType] || PLANT_IMAGES.sayuran;
-            
-            // Perbarui tag Image untuk gambar
-            if(healthyPlantImageDiv) healthyPlantImageDiv.innerHTML = `<img src="${plantData.healthy}" alt="Tanaman Sehat" class="w-full h-full object-cover rounded-md">`;
-            if(diseasedPlantImageDiv) diseasedPlantImageDiv.innerHTML = `<img src="${plantData.diseased}" alt="Tanaman Terserang Hama" class="w-full h-full object-cover rounded-md">`;
+                    <p class="text-center text-sm text-textMuted mt-4">
+                        Belum punya akun? <a href="#" onclick="toggleAuthView('register')" class="text-primary font-semibold hover:underline">Daftar Sekarang</a>
+                    </p>
+                </div>
+                
+                                                                <div id="profile-view" class="hidden">
+                     <div class="text-center mb-8">
+                        <div class="mx-auto w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center text-4xl text-primary mb-3">
+                            🧑‍🌾
+                        </div>
+                        <h2 class="text-xl font-bold text-textDark">Petani Teladan 123</h2>
+                        <p class="text-sm text-textMuted">petani.teladan@agroscan.com</p>
+                    </div>
 
-            // Tentukan Rating simulasi
-            const healthyRating = (Math.random() * (99 - 90) + 90).toFixed(0);
-            const diseasedRating = (Math.random() * (50 - 30) + 30).toFixed(0);
+                    <div class="space-y-4">
+                        <div class="bg-accent p-4 rounded-lg shadow-sm border border-gray-200">
+                            <h3 class="font-semibold text-textDark mb-2">Informasi Akun</h3>
+                            <ul class="text-sm text-gray-700 space-y-2">
+                                <li class="flex justify-between border-b pb-1"><span>Nama:</span> <span class="font-medium">Joko Tani</span></li>
+                                <li class="flex justify-between border-b pb-1"><span>Lokasi Lahan Utama:</span> <span class="font-medium">Cilacap, Jawa Tengah</span></li>
+                                <li class="flex justify-between pb-1"><span>Luas Lahan Total:</span> <span class="font-medium">2.5 Hektar</span></li>
+                            </ul>
+                        </div>
 
-            if(healthyPlantRating) healthyPlantRating.textContent = `Kesehatan: ${healthyRating}%`;
-            if(diseasedPlantRating) diseasedPlantRating.textContent = `Kesehatan: ${diseasedRating}%`;
+                        <a href="#" class="block bg-accent p-4 rounded-lg shadow-sm border border-primary/20 flex items-center justify-between hover:bg-primary/10 transition">
+                            <span class="font-medium text-textDark">Riwayat Pemindaian</span>
+                            <span class="text-primary font-bold">Lihat →</span>
+                        </a>
+                        
+                        <a href="#" class="block bg-accent p-4 rounded-lg shadow-sm border border-gray-200 flex items-center justify-between hover:bg-gray-100 transition">
+                            <span class="font-medium text-textDark">Pengaturan Aplikasi</span>
+                            <span class="text-gray-500">→</span>
+                        </a>
+                        
+                        <button onclick="simulateLogout()" class="w-full py-3 mt-6 bg-danger text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition duration-150">
+                            Keluar (Logout)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div> </div> <script>
+    // Global variable to simulate login state
+    let isAuthenticated = false;
+    let currentAuthMode = 'login'; // 'login' atau 'register'
+    // Catatan: isEmailVerified disimpan di localStorage untuk simulasi bahwa status verifikasi persisten
+    
+    // =================================================================================
+    // LOGIKA NAVIGASI (MULTI-PAGE SIMULATION)
+    // =================================================================================
 
-            healthComparisonSection.classList.remove('hidden');
-        }
+    function initializeDetectPage(params) {
+        const tanamanTitleEl = document.getElementById('tanamanTitle');
+        if (params.type) {
+            // Mengubah judul berdasarkan parameter (misalnya, Padi, Cabai, dll.)
+            tanamanTitleEl.textContent = ' untuk ' + params.type.charAt(0).toUpperCase() + params.type.slice(1);
+        } else {
+            tanamanTitleEl.textContent = '';
+        }
+        // Reset tampilan hasil deteksi jika ada
+        document.getElementById('preview').style.display = 'none';
+        document.getElementById('resultArea').classList.add('hidden');
+        document.getElementById('healthComparisonSection').classList.add('hidden');
+    }
+
+    function updateAuthView() {
+        const isVerified = localStorage.getItem('isEmailVerified') === 'true';
+
+        if (isAuthenticated) {
+            // Tampilan Profil (Sudah Login)
+            document.getElementById('verification-view').classList.add('hidden');
+            document.getElementById('login-view').classList.add('hidden');
+            document.getElementById('profile-view').classList.remove('hidden');
+        } else if (!isVerified) {
+            // Tampilan Verifikasi (Belum Verifikasi)
+            document.getElementById('verification-view').classList.remove('hidden');
+            document.getElementById('login-view').classList.add('hidden');
+            document.getElementById('profile-view').classList.add('hidden');
+        } else {
+            // Tampilan Login/Daftar (Sudah Verifikasi Email, tapi Belum Login)
+            document.getElementById('verification-view').classList.add('hidden');
+            document.getElementById('login-view').classList.remove('hidden');
+            document.getElementById('profile-view').classList.add('hidden');
+            toggleAuthView(currentAuthMode); // Pastikan default adalah tampilan Login
+        }
+    }
 
 
-        // Tautkan kembali event listener karena elemen dimuat ulang atau dipindahkan
-        document.getElementById('fileInput').addEventListener('change', handleFileChange);
-        
-        // Pastikan tombol mock (simulasi) diinisialisasi
-        const btnMock = document.getElementById('btnMock');
-        if (btnMock) {
-            btnMock.onclick = mockDetect;
-        }
-        
-        // Jika dari beranda, beri tautan ke info-padi.html, perbaiki tautan link di data
-        const currentProblems = selectedType === 'padi' ? PADI_PROBLEMS : UMUM_PROBLEMS;
-        currentProblems.forEach(p => {
-             if (p.link && p.link.startsWith('#')) {
-                // Perbaikan link untuk navigasi di HTML satu file
-                p.link = `javascript:navigate('info-padi'); setTimeout(() => { document.querySelector('${p.link}').scrollIntoView({ behavior: 'smooth' }); }, 100);`;
-            }
-        });
-    }
+    function navigate(pageId, params = {}) {
+        const pages = document.querySelectorAll('[data-page]');
+        pages.forEach(page => {
+            page.classList.add('hidden');
+        });
+        
+        const targetPage = document.getElementById('page-' + pageId);
+        if (targetPage) {
+            targetPage.classList.remove('hidden');
+            
+            if (pageId === 'detect') {
+                initializeDetectPage(params);
+            } else if (pageId === 'profile') {
+                updateAuthView();
+            } else if (pageId === 'kalkulator-pupuk') {
+                // Logika inisialisasi kalkulator pupuk (jika ada)
+            }
+        }
+        
+        // Atur agar konten yang tampil (max-w-md/lg) sesuai dengan halaman tujuan
+        const appContainer = document.getElementById('app-container');
+        if (pageId === 'index') {
+            appContainer.classList.remove('md:max-w-4xl');
+            appContainer.classList.add('md:max-w-lg');
+        } else {
+            appContainer.classList.remove('md:max-w-lg');
+            appContainer.classList.add('md:max-w-4xl');
+        }
+        
+        window.scrollTo(0, 0);
+    }
 
-    // Fungsi util: tampilkan hasil diagnosis
-    function showResult(problems) {
-        const resultArea = document.getElementById('resultArea');
-        const status = document.getElementById('status');
-        const predictionsDiv = document.getElementById('predictions');
-        const remedyDisplay = document.getElementById('remedyDisplay');
-        
-        if (!resultArea || !status || !predictionsDiv || !remedyDisplay) return;
+    // Panggil navigate('index') saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', () => {
+        navigate('index');
+        // Hapus status verifikasi dari localStorage di awal untuk demo, agar halaman verifikasi muncul
+        // localStorage.removeItem('isEmailVerified');
+    });
 
-        resultArea.classList.remove('hidden');
-        predictionsDiv.innerHTML = '';
-        remedyDisplay.innerHTML = ''; 
+    // =================================================================================
+    // LOGIKA SIMULASI AKUN DENGAN VERIFIKASI
+    // =================================================================================
 
-        if (problems.length === 0) {
-            resultArea.className = 'mt-6 p-4 bg-green-50 border border-green-200 rounded-lg';
-            status.className = 'text-green-700 font-bold mb-2';
-            status.textContent = '✅ Tanaman Sehat / Normal';
-            remedyDisplay.innerHTML = `<div class="bg-green-100 p-3 rounded-md mt-2">
-                <p class="text-sm text-green-700">Tidak terdeteksi hama atau masalah signifikan. Lanjutkan program perawatan rutin.</p>
-            </div>`;
-            return;
-        }
+    function toggleAuthView(mode) {
+        currentAuthMode = mode;
+        const authTitle = document.getElementById('authTitle');
+        const authBtn = document.getElementById('authBtn');
+        const registerFields = document.getElementById('registerFields');
+        const loginViewText = document.querySelector('#login-view p');
+        
+        if (mode === 'register') {
+            authTitle.textContent = 'Buat Akun Baru (Daftar)';
+            authBtn.textContent = 'Daftar';
+            registerFields.classList.remove('hidden');
+            loginViewText.innerHTML = `Sudah punya akun? <a href="#" onclick="toggleAuthView('login')" class="text-primary font-semibold hover:underline">Masuk</a>`;
+        } else {
+            authTitle.textContent = 'Masuk ke Akun AgroScan';
+            authBtn.textContent = 'Masuk';
+            registerFields.classList.add('hidden');
+            loginViewText.innerHTML = `Belum punya akun? <a href="#" onclick="toggleAuthView('register')" class="text-primary font-semibold hover:underline">Daftar Sekarang</a>`;
+        }
+    }
 
-        const primaryColor = problems.some(p => p.type === 'danger') ? 'danger' : 'warning';
-        const bgColor = primaryColor === 'danger' ? 'bg-red-50' : 'bg-yellow-50';
-        const borderColor = primaryColor === 'danger' ? 'border-red-200' : 'border-yellow-200';
-        const statusColor = primaryColor === 'danger' ? 'text-red-700' : 'text-yellow-700';
+    function simulateLogin() {
+        const authBtn = document.getElementById('authBtn');
+        const isRegister = authBtn.textContent === 'Daftar';
+        
+        // Simulasi validasi dasar
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
 
-        resultArea.className = `mt-6 p-4 ${bgColor} border ${borderColor} rounded-lg`;
-        status.className = `${statusColor} font-bold mb-2`;
-        status.textContent = `🚨 Hasil Diagnosis: Ditemukan ${problems.length} Masalah!`;
+        if (!email || !password || (isRegister && !document.getElementById('regName').value)) {
+            alert('Silakan isi semua kolom yang diperlukan.');
+            return;
+        }
 
-        let remedyContent = `<h4 class="text-lg font-bold ${statusColor} mb-2">💊 Rekomendasi Penanganan:</h4>`;
+        // Simulasi proses login/register
+        alert(isRegister ? 'Pendaftaran Berhasil! Anda otomatis masuk.' : 'Masuk Berhasil!');
+        isAuthenticated = true;
+        localStorage.setItem('isEmailVerified', 'true'); // Pastikan status verifikasi tetap true setelah login/daftar
+        updateAuthView(); // Perbarui tampilan ke Profil
+    }
 
-        problems.forEach((p, index) => {
-            const itemColor = p.type === 'danger' ? 'text-red-600' : 'text-yellow-600';
-            
-            const li = document.createElement('li');
-            li.className = itemColor;
-            li.textContent = `${index + 1}. ${p.name} (Prioritas ${p.priority === 1 ? 'Tinggi' : 'Menengah'})`;
-            predictionsDiv.appendChild(li);
+    function simulateLogout() {
+        isAuthenticated = false;
+        alert('Anda telah keluar dari akun.');
+        updateAuthView(); // Kembali ke tampilan login
+    }
 
-            const linkHtml = p.link ? `<a href="${p.link}" class="text-primary hover:underline font-semibold ml-2">(Lihat Detail)</a>` : '';
-            
-            remedyContent += `<div class="mt-3 ${p.type === 'danger' ? 'border-l-4 border-red-400 pl-3' : 'border-l-4 border-yellow-400 pl-3'}">
-                <p class="text-sm ${itemColor} font-semibold">${p.name}:</p>
-                <p class="text-xs text-gray-700">${p.remedy} ${linkHtml}</p>
-            </div>`;
-        });
-        
-        remedyDisplay.innerHTML = remedyContent;
-    }
+    function simulateVerification() {
+        alert('Email verifikasi (simulasi) telah dikirim. Silakan cek kotak masuk Anda dan klik tautan verifikasi.\n\nUntuk tujuan demo, kami akan menganggap verifikasi berhasil.');
+        localStorage.setItem('isEmailVerified', 'true');
+        updateAuthView(); // Pindah ke tampilan Login/Daftar
+    }
 
-    // Preview gambar
-    function handleFileChange(ev) {
-        const preview = document.getElementById('preview');
-        const resultArea = document.getElementById('resultArea');
-        const remedyDisplay = document.getElementById('remedyDisplay');
-        
-        const f = ev.target.files && ev.target.files[0];
-        if (!f) return;
-        const url = URL.createObjectURL(f);
-        if (preview) {
-             preview.src = url;
-             preview.style.display = 'block';
-        }
-        if (resultArea) resultArea.classList.add('hidden');
-        if (remedyDisplay) remedyDisplay.innerHTML = '';
-    }
-    
-    // Mock detection (Simulasi Canggih)
-    function mockDetect() {
-        const fileInput = document.getElementById('fileInput');
-        const preview = document.getElementById('preview');
-        const status = document.getElementById('status');
-        
-        if (!preview || !fileInput || !fileInput.files || fileInput.files.length === 0) {
-            if (status) status.textContent = 'Silakan pilih gambar terlebih dahulu.';
-            showResult([]);
-            return;
-        }
-        
-        // Nonaktifkan tombol selama proses simulasi
-        const btnMock = document.getElementById('btnMock');
-        if (btnMock) {
-            btnMock.disabled = true;
-            btnMock.textContent = 'Memindai...';
-        }
+    // =================================================================================
+    // LOGIKA TAMBAHAN (Kalkulator dan Deteksi)
+    // =================================================================================
 
-        if (status) status.textContent = `Menjalankan analisis cerdas...`;
+    function calculateFertilizer() {
+        const luasLahan = parseFloat(document.getElementById('luasLahan').value);
+        const jenisTanaman = document.getElementById('jenisTanaman').value;
+        const resultPupuk = document.getElementById('resultPupuk');
+        const dosisDetails = document.getElementById('dosisDetails');
+        
+        if (isNaN(luasLahan) || luasLahan <= 0) {
+            alert("Harap masukkan luas lahan yang valid.");
+            resultPupuk.classList.add('hidden');
+            return;
+        }
 
-        const allProblems = selectedType === 'padi' ? PADI_PROBLEMS : UMUM_PROBLEMS;
-        
-        const detectedProblems = [];
-        
-        // 1. Deteksi Hama Utama (Prioritas 1) - 40% chance
-        if (Math.random() < 0.4) {
-            const highPriority = allProblems.filter(p => p.priority === 1);
-            const detectedHama = highPriority[Math.floor(Math.random() * highPriority.length)];
-            detectedProblems.push(detectedHama);
-        }
+        let dosisPerHektar = {};
+        let title = '';
 
-        // 2. Deteksi Masalah Nutrisi (Prioritas 2) - 30% chance
-        if (Math.random() < 0.3) {
-            const mediumPriority = allProblems.filter(p => p.priority === 2);
-            if (mediumPriority.length > 0) {
-                const detectedNutrisi = mediumPriority[Math.floor(Math.random() * mediumPriority.length)];
-                if (!detectedProblems.find(p => p.name === detectedNutrisi.name)) {
-                    detectedProblems.push(detectedNutrisi);
-                }
-            }
-        }
+        // Data simulasi dosis pupuk (kg/ha)
+        if (jenisTanaman === 'padi') {
+            dosisPerHektar = { Urea: 250, NPK: 300, Organik: 200 };
+            title = 'Padi Sawah';
+        } else if (jenisTanaman === 'jagung') {
+            dosisPerHektar = { Urea: 300, Phonska: 250, KCL: 100 };
+            title = 'Jagung';
+        } else if (jenisTanaman === 'cabai') {
+            dosisPerHektar = { NPK: 600, ZA: 150, Gandasil: 5 };
+            title = 'Cabai';
+        }
 
-        // Menambahkan delay simulasi untuk pengalaman pengguna
-        setTimeout(() => {
-             showResult(detectedProblems);
-             if (btnMock) {
-                btnMock.disabled = false;
-                btnMock.textContent = 'Scan (Simulasi Canggih)';
-            }
-        }, 1500); // Tunda hasil 1.5 detik
-       
-    }
-    
-    // =================================================================================
-    // LOGIKA KALKULATOR PUPUK
-    // =================================================================================
-    
-    document.addEventListener('DOMContentLoaded', () => {
-        const calculateBtn = document.getElementById('calculateBtn');
-        if (calculateBtn) {
-            calculateBtn.addEventListener('click', calculatePupuk);
-        }
-    });
+        let html = `<h3 class="text-xl font-bold text-secondary mb-3">Rekomendasi Dosis untuk ${title} (${luasLahan} Ha)</h3>`;
+        html += `<div class="space-y-2">`;
 
-    function calculatePupuk() {
-        const luasLahanInput = document.getElementById('luasLahan');
-        const jenisTanamanSelect = document.getElementById('jenisTanaman');
-        const resultPupukDiv = document.getElementById('resultPupuk');
-        const dosisDetailsDiv = document.getElementById('dosisDetails');
-        
-        if (!luasLahanInput || !jenisTanamanSelect || !resultPupukDiv || !dosisDetailsDiv) return;
+        for (const [pupuk, dosis] of Object.entries(dosisPerHektar)) {
+            const totalDosis = dosis * luasLahan;
+            const unit = (pupuk === 'Gandasil') ? 'Kg (Folliar)' : 'Kg';
+            html += `
+                <div class="flex justify-between border-b pb-1">
+                    <span class="font-medium text-textDark">${pupuk}:</span>
+                    <span class="text-primary font-bold">${totalDosis.toFixed(1)} ${unit}</span>
+                </div>
+            `;
+        }
+        html += `</div>`;
 
-        const luas = parseFloat(luasLahanInput.value);
-        const jenis = jenisTanamanSelect.value;
+        dosisDetails.innerHTML = html;
+        resultPupuk.classList.remove('hidden');
+    }
 
-        if (isNaN(luas) || luas <= 0) {
-            alert('Masukkan luas lahan yang valid.');
-            return;
-        }
+    document.getElementById('calculateBtn').addEventListener('click', calculateFertilizer);
 
-        const BASE_DOSIS = {
-            padi: { Urea: 250, NPK: 300, KCL: 100 },
-            jagung: { Urea: 300, NPK: 400, Za: 50 },
-            cabai: { Urea: 150, NPK: 500, TSP: 100 }
-        };
+    // Logika simulasi gambar preview
+    document.getElementById('fileInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('preview');
+        
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = '';
+            preview.style.display = 'none';
+        }
+    });
+    
+    // Logika simulasi Scan (Mock)
+    document.getElementById('btnMock').addEventListener('click', function() {
+        const preview = document.getElementById('preview');
+        const resultArea = document.getElementById('resultArea');
+        const statusDiv = document.getElementById('status');
+        const predictionsUl = document.getElementById('predictions');
+        const remedyDisplay = document.getElementById('remedyDisplay');
+        const healthComparisonSection = document.getElementById('healthComparisonSection');
+        
+        if (preview.style.display === 'none') {
+            alert("Harap unggah gambar terlebih dahulu.");
+            return;
+        }
 
-        const dosisDasar = BASE_DOSIS[jenis];
-        
-        dosisDetailsDiv.innerHTML = '';
-        
-        for (const pupuk in dosisDasar) {
-            const totalDosis = dosisDasar[pupuk] * luas;
-            
-            const div = document.createElement('div');
-            div.className = 'flex justify-between border-b border-primary/30 pb-1';
-            div.innerHTML = `<span class="font-semibold text-textDark">${pupuk}:</span> <span class="text-primary font-bold">${totalDosis.toFixed(0)} kg</span>`;
-            dosisDetailsDiv.appendChild(div);
-        }
-        
-        resultPupukDiv.classList.remove('hidden');
-    }
+        // 1. Tampilkan status scanning
+        statusDiv.textContent = 'Scanning... Memproses gambar dengan model AI (90% Akurat)...';
+        predictionsUl.innerHTML = '';
+        remedyDisplay.innerHTML = '';
+        resultArea.classList.remove('hidden');
+        healthComparisonSection.classList.add('hidden');
+        
+        setTimeout(() => {
+            // 2. Hasil Simulasi Canggih
+            const diagnosis = [
+                { name: 'Penyakit Jamur Karat Daun', confidence: '75%', severity: 'Medium', color: 'danger' },
+                { name: 'Kekurangan Unsur Hara Magnesium (Mg)', confidence: '50%', severity: 'Low', color: 'warning' },
+            ];
+
+            statusDiv.innerHTML = `✅ **Diagnosis Selesai! Ditemukan 2 Masalah Utama.**`;
+            
+            predictionsUl.innerHTML = diagnosis.map(d => 
+                `<li class="text-${d.color}">**${d.name}** (Probabilitas: ${d.confidence}, Tingkat Serangan: ${d.severity})</li>`
+            ).join('');
+
+            remedyDisplay.innerHTML = `
+                <h4 class="font-bold text-lg text-primary mb-2">Rekomendasi Penanganan Cepat:</h4>
+                <p class="text-sm text-gray-700">1. **Fungisida:** Aplikasikan fungisida berbahan aktif Tembaga Oksida. Ulangi 7 hari kemudian.</p>
+                <p class="text-sm text-gray-700">2. **Nutrisi:** Segera berikan pupuk daun yang mengandung Magnesium dan Kalium tinggi (mis. KNO3).</p>
+                <a href="#" class="text-sm text-secondary font-semibold mt-2 block hover:underline">Lihat Detail Penanganan Lengkap →</a>
+            `;
+
+            // 3. Tampilkan Perbandingan Kesehatan
+            healthComparisonSection.classList.remove('hidden');
+            document.getElementById('diseasedPlantImage').innerHTML = '<img src="https://via.placeholder.com/200x150?text=Gambar+Daun+Berkarat" alt="Gambar Daun Berkarat" class="rounded-md w-full h-auto object-cover">';
+            document.getElementById('healthyPlantImage').innerHTML = '<img src="https://via.placeholder.com/200x150?text=Gambar+Daun+Sehat" alt="Gambar Daun Sehat" class="rounded-md w-full h-auto object-cover">';
+            document.getElementById('diseasedPlantRating').textContent = 'Kesehatan: 35%';
+        }, 2000); // Simulasi waktu proses 2 detik
+    });
+    
+    
+    
 </script>
 </body>
 </html>
