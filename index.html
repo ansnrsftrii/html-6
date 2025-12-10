@@ -39,7 +39,9 @@
                     <h1 class="text-xl font-semibold">AgroScan</h1>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <button class="focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.007 2.007 0 0118 14.07V10c0-2.856-2.572-5.186-5.714-5.186S6.572 7.144 6.572 10v4.07c0 .762-.317 1.49-.87 2.01L4 17h5m6 0v1a3 3 0 01-6 0v-1m6 0H9"/></svg></button>
+                    <button onclick="goToNotifications()" class="focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.007 2.007 0 0118 14.07V10c0-2.856-2.572-5.186-5.714-5.186S6.572 7.144 6.572 10v4.07c0 .762-.317 1.49-.87 2.01L4 17h5m6 0v1a3 3 0 01-6 0v-1m6 0H9"/></svg>
+                    </button>
                     <button onclick="navigate('profile')" class="focus:outline-none">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </button>
@@ -186,7 +188,12 @@
         </div> 
 
         <div id="page-info-padi" data-page="info-padi" class="min-h-screen p-4 sm:p-8 hidden">
-             </div>
+             <header class="mb-6 border-b pb-4 flex items-center">
+                <button onclick="navigate('index')" class="text-primary hover:text-secondary mr-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg></button>
+                <h1 class="text-2xl font-bold text-gray-800">🦠 Katalog Hama Padi</h1>
+            </header>
+            <p class="text-textMuted">Detail hama dan penyakit padi (Simulasi)</p>
+        </div>
         <div id="page-kalkulator-pupuk" data-page="kalkulator-pupuk" class="min-h-screen p-4 sm:p-8 hidden">
             <header class="mb-6 border-b pb-4 flex items-center">
                 <button onclick="navigate('index')" class="text-primary hover:text-secondary mr-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg></button>
@@ -224,7 +231,12 @@
         </div> 
 
         <div id="page-tips-budidaya" data-page="tips-budidaya" class="min-h-screen p-4 sm:p-8 hidden">
-            </div> 
+            <header class="mb-6 border-b pb-4 flex items-center">
+                <button onclick="navigate('index')" class="text-primary hover:text-secondary mr-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg></button>
+                <h1 class="text-2xl font-bold text-gray-800">📚 Tips Budidaya</h1>
+            </header>
+            <p class="text-textMuted">Kumpulan panduan budidaya tanaman (Simulasi)</p>
+        </div> 
         
         <div id="page-profile" data-page="profile" class="min-h-screen p-4 sm:p-8">
             <div class="max-w-4xl mx-auto bg-white p-6 lg:p-8">
@@ -322,12 +334,11 @@
     let currentAuthMode = 'login'; // 'login' atau 'register'
 
     // =================================================================================
-    // LOGIKA NAVIGASI (MULTI-PAGE SIMULATION)
+    // LOGIKA NAVIGASI & OTENTIKASI
     // =================================================================================
 
     function updateAuthView() {
         // Cek status verifikasi email
-        // Default awal: isEmailVerified = false
         const isVerified = localStorage.getItem('isEmailVerified') === 'true';
 
         // 1. Jika sudah login DAN email sudah terverifikasi -> Tampilkan Profil
@@ -353,7 +364,7 @@
 
 
     function navigate(pageId, params = {}) {
-        // Cek Verifikasi sebelum navigasi
+        // Cek Verifikasi sebelum navigasi ke halaman fitur
         const isVerified = localStorage.getItem('isEmailVerified') === 'true';
         const isProfilePage = pageId === 'profile';
 
@@ -373,15 +384,26 @@
             targetPage.classList.remove('hidden');
             
             if (pageId === 'detect') {
-                // Fungsi inisialisasi halaman deteksi (dihilangkan untuk keringkasan)
-                // initializeDetectPage(params); 
+                 // Reset input deteksi saat masuk
+                 document.getElementById('fileInput').value = '';
+                 document.getElementById('preview').classList.add('hidden');
+                 document.getElementById('detectBtn').classList.add('hidden');
+                 document.getElementById('resultArea').classList.add('hidden');
+                 document.getElementById('healthComparisonSection').classList.add('hidden');
+                 
+                 // Update judul jika ada parameter tipe tanaman
+                 const tanamanTitleEl = document.getElementById('tanamanTitle');
+                 if (params.type) {
+                     tanamanTitleEl.textContent = ' untuk ' + params.type.charAt(0).toUpperCase() + params.type.slice(1);
+                 } else {
+                     tanamanTitleEl.textContent = '';
+                 }
             } else if (pageId === 'profile') {
                 updateAuthView();
             } 
         }
     }
     
-    // Logika Simulasi Autentikasi
     function toggleAuthView(mode) {
         currentAuthMode = mode;
         const authTitle = document.getElementById('authTitle');
@@ -404,6 +426,10 @@
         }
     }
 
+    // =================================================================================
+    // FUNGSI SIMULASI
+    // =================================================================================
+    
     function simulateVerification() {
         alert("Tautan verifikasi telah dikirim ke email Anda! Setelah berhasil diverifikasi, Anda dapat login.");
         localStorage.setItem('isEmailVerified', 'true');
@@ -421,6 +447,18 @@
         localStorage.setItem('isEmailVerified', 'false'); // Set kembali ke status unverified
         alert("Anda telah keluar dari akun. Mohon verifikasi email kembali.");
         updateAuthView(); // Pindah ke tampilan Verifikasi
+    }
+    
+    function goToNotifications() {
+        const isVerified = localStorage.getItem('isEmailVerified') === 'true';
+
+        if (!isVerified) {
+            alert('Fitur Notifikasi hanya tersedia untuk pengguna yang terverifikasi. Mohon verifikasi email Anda.');
+            navigate('profile'); // Arahkan ke halaman Verifikasi
+            return;
+        }
+        
+        alert("🔔 Anda menekan tombol Notifikasi. (Halaman notifikasi akan dimuat di sini)");
     }
     
     // Logika Simulasi Deteksi
@@ -498,8 +536,7 @@
             localStorage.setItem('isEmailVerified', 'false');
         }
         
-        // Panggil fungsi otentikasi saat halaman dimuat. 
-        // Karena page-profile sudah tidak 'hidden', fungsi ini akan menampilkan Verifikasi Email.
+        // Panggil fungsi otentikasi saat halaman dimuat (menampilkan Verifikasi Email)
         updateAuthView(); 
         
         // Tambahkan event listener untuk kalkulator pupuk
