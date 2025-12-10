@@ -12,14 +12,14 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#10B981', 
-                        secondary: '#047857', 
-                        accent: '#ECFDF5', 
-                        textDark: '#1F2937', 
-                        textMuted: '#6B7280', 
-                        danger: '#EF4444', 
-                        warning: '#f97316', 
-                        success: '#22C55E', 
+                        primary: '#10B981', // Hijau Cerah
+                        secondary: '#047857', // Hijau Lebih Gelap
+                        accent: '#ECFDF5', // Latar belakang elemen ringan
+                        textDark: '#1F2937', // Teks gelap
+                        textMuted: '#6B7280', // Teks abu-abu
+                        danger: '#EF4444', // Merah untuk Hama
+                        warning: '#f97316', // Oranye
+                        success: '#22C55E', // Hijau untuk rating sehat
                     },
                     screens: { 'md': '768px', 'lg': '1024px' }
                 }
@@ -392,6 +392,7 @@
     // =================================================================================
 
     function updateAuthView() {
+        // Logika tampilan otentikasi
         const isVerified = localStorage.getItem('isEmailVerified') === 'true';
 
         if (isAuthenticated && isVerified) {
@@ -414,11 +415,12 @@
 
 
     function navigate(pageId, params = {}) {
+        // Logika perpindahan halaman dan pemeriksaan verifikasi
         const isVerified = localStorage.getItem('isEmailVerified') === 'true';
         const isProfilePage = pageId === 'profile';
 
         if (!isProfilePage && !isVerified) {
-            alert('Akses Penuh dibatasi. Mohon verifikasi email Anda terlebih dahulu.');
+            alert('Akses Penuh fitur edukasi dan kalkulator dibatasi. Mohon verifikasi email Anda terlebih dahulu.');
             pageId = 'profile'; 
         }
 
@@ -431,8 +433,8 @@
         if (targetPage) {
             targetPage.classList.remove('hidden');
             
+            // Logika spesifik per halaman
             if (pageId === 'detect') {
-                 // Reset input deteksi
                  document.getElementById('fileInput').value = '';
                  document.getElementById('preview').classList.add('hidden');
                  document.getElementById('detectBtn').classList.add('hidden');
@@ -448,14 +450,15 @@
             } else if (pageId === 'profile') {
                 updateAuthView();
             } else if (pageId === 'tips-budidaya') {
-                showTipList(); // Tampilkan daftar tips saat masuk
+                showTipList(); // Penting: Menampilkan daftar tips secara default
             } else if (pageId === 'info-padi') {
-                showHamaList(); // Tampilkan daftar hama saat masuk
+                showHamaList(); // Penting: Menampilkan daftar hama secara default
             }
         }
     }
     
     function toggleAuthView(mode) {
+        // Logika pergantian tampilan Login dan Register
         currentAuthMode = mode;
         const authTitle = document.getElementById('authTitle');
         const authBtn = document.getElementById('authBtn');
@@ -478,7 +481,7 @@
     }
 
     // =================================================================================
-    // FUNGSI SIMULASI & TOMBOL HEADER
+    // FUNGSI SIMULASI UTAMA
     // =================================================================================
     
     function simulateVerification() {
@@ -684,7 +687,7 @@
     // =================================================================================
     
     document.addEventListener('DOMContentLoaded', () => {
-        // Inisialisasi status verifikasi jika belum ada di LocalStorage
+        // Inisialisasi status verifikasi
         if (localStorage.getItem('isEmailVerified') === null) {
             localStorage.setItem('isEmailVerified', 'false');
         }
